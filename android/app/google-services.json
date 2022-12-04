@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1088073001188",
+    "project_id": "inbox-d3522",
+    "storage_bucket": "inbox-d3522.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088073001188:android:eca176e87d5b9cb78724f1",
+        "android_client_info": {
+          "package_name": "com.example.inbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088073001188-k5njufo20j6r3gs58gehc3aq9g558052.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAI4nmVw3jSUbMlNH2HNATofP9GShiCz10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088073001188-k5njufo20j6r3gs58gehc3aq9g558052.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
