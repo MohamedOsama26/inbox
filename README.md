@@ -1,7 +1,6 @@
 # inbox
 
-social app
-
+Simple social mobile application to comunecate people with each other by many methods; like posts, chatting for users between each other, and sharing videos for good moments in our life.
 ## Getting Started
 
 This project is a starting point for a Flutter application.
