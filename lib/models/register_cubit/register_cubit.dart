@@ -22,10 +22,14 @@ class RegisterCubit extends Cubit<RegisterState> {
     required String password,
     required String phone,
     required String name,
+    required String nickname,
+    required String birthday,
+    required String city,
+    required String gender,
     required String profilePicture,
     required String backgroundPicture,
     required String bio,
-        bool isEmailVerified = false,
+    bool isEmailVerified = false,
   }) {
     emit(RegisterLoadingState());
 
@@ -44,6 +48,10 @@ class RegisterCubit extends Cubit<RegisterState> {
         bio: bio,
         profilePicture: profilePicture,
         isEmailVerified: isEmailVerified,
+        nickname: nickname,
+        birthday: birthday,
+        city: city,
+        gender: gender,
       );
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -71,6 +79,10 @@ class RegisterCubit extends Cubit<RegisterState> {
     required String profilePicture,
     required String backgroundPicture,
     required String bio,
+    required String nickname,
+    required String birthday,
+    required String city,
+    required String gender,
   }) {
     UserModel userModel = UserModel(
         uid: uid,
@@ -80,7 +92,12 @@ class RegisterCubit extends Cubit<RegisterState> {
         isEmailVerified: isEmailVerified,
         profilePicture: profilePicture,
         bio: bio,
-        backgroundPicture: backgroundPicture);
+        backgroundPicture: backgroundPicture,
+        nickname: nickname,
+        birthday: birthday,
+        city: city,
+        gender: gender
+    );
 
     FirebaseFirestore.instance
         .collection('users')

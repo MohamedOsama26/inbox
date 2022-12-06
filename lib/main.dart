@@ -20,9 +20,7 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
-
   const MyApp({super.key});
-
 
 
   // This widget is the root of your application.
@@ -35,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: uid != null ? const MainPage() : const LoginScreen()
+      home: uid != null ? const MainPage() : const LoginScreen(),
     );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inbox/models/register_cubit/register_cubit.dart';
-import 'package:inbox/modules/home_screen/home_screen.dart';
 import 'package:inbox/modules/login_screen/login_screen.dart';
+import 'package:inbox/modules/regiser_new_user_information/register_new_user_information.dart';
 import 'package:inbox/shared/widgets/checkbox_style_1.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../shared/widgets/text_field_style_1.dart';
@@ -30,12 +30,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return BlocProvider(
       create: (context) => RegisterCubit(),
       child: BlocConsumer<RegisterCubit, RegisterState>(
-        listener: (context, state) {
-          if (state is RegisterSuccessState) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>  HomeScreen()));
-          }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           if (state is RegisterLoadingState) {
             return const Scaffold(
@@ -171,18 +166,36 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  if (formKey.currentState!.validate()) {
-                                    RegisterCubit.get(context).register(context,
-                                        backgroundPicture: '',
-                                        bio: 'my bio',
-                                        profilePicture: '',
-                                        email: emailController.text,
-                                        password: passwordController.text,
-                                        phone: phoneController.text,
-                                      name: 'Mohamed Osama Kandil'
 
+
+
+                                  if(formKey.currentState!.validate()) {
+                                    Navigator.push(context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            RegisterNewUserInformation(
+                                              email: emailController.text,
+                                              password: passwordController.text,
+                                              phone: phoneController.text,
+                                            ),
+                                      ),
                                     );
                                   }
+
+                                  //---------------------------------------------------------
+                                  // if (formKey.currentState!.validate()) {
+                                  //   RegisterCubit.get(context).register(context,
+                                  //       backgroundPicture: '',
+                                  //       bio: 'my bio',
+                                  //       profilePicture: '',
+                                  //       email: emailController.text,
+                                  //       password: passwordController.text,
+                                  //       phone: phoneController.text,
+                                  //     name: 'Mohamed Osama Kandil'
+                                  //
+                                  //   );
+                                  // }
+                                  //--------------------------------------------------------
                                 },
                                 child: Text(
                                   'Sign Up',

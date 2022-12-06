@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inbox/modules/home_screen/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_state.dart';
@@ -25,11 +23,7 @@ class LoginCubit extends Cubit<LoginState> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('uid', value.user!.uid);
 
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>  HomeScreen(),
-          ));
+      emit(LoginSuccessState());
     }).catchError((error) {
       error = error.toString();
       String err = error.substring(error.indexOf(']')+1,error.indexOf('.'));
@@ -40,6 +34,10 @@ class LoginCubit extends Cubit<LoginState> {
 
   void reloadLoginPage() {
     emit(LoginInitialState());
+  }
+
+  void checkUid(){
+
   }
 
   void makeError() {

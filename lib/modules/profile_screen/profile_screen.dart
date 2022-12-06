@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:inbox/modules/login_screen/login_screen.dart';
 import 'package:inbox/shared/links.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -78,29 +78,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Expanded(
                 child: InkWell(
-                    onTap: () {
-                      print('1');
-                    },
-                    child: Column(
-                      children: const [
-                        Text(
-                          '100',
-                          style: TextStyle(
-                            fontSize: 16,
+                  onTap: () {
+                    print('1');
+                  },
+                  child: Column(
+                    children: const [
+                      Text(
+                        '100',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        'Posts',
+                        style: TextStyle(
+                          fontSize: 14,
+                          height: 1.5,
+                          color: Color(
+                            0x93000000,
                           ),
                         ),
-                        Text(
-                          'Posts',
-                          style: TextStyle(
-                            fontSize: 14,
-                            height: 1.5,
-                            color: Color(
-                              0x93000000,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               Expanded(
@@ -131,29 +131,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               Expanded(
                 child: InkWell(
-                    onTap: () {
-                      print('3');
-                    },
-                    child: Column(
-                      children: const [
-                        Text(
-                          '23k',
-                          style: TextStyle(
-                            fontSize: 16,
+                  onTap: () {
+                    print('3');
+                  },
+                  child: Column(
+                    children: const [
+                      Text(
+                        '23k',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        'Media',
+                        style: TextStyle(
+                          fontSize: 14,
+                          height: 1.5,
+                          color: Color(
+                            0x93000000,
                           ),
                         ),
-                        Text(
-                          'Media',
-                          style: TextStyle(
-                            fontSize: 14,
-                            height: 1.5,
-                            color: Color(
-                              0x93000000,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               Expanded(
                 child: InkWell(
@@ -161,12 +162,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       print('4');
                     },
                     child: Column(
-                      children: const [Text(
-                        '42k',
-                        style: TextStyle(
-                          fontSize: 16,
+                      children: const [
+                        Text(
+                          '42k',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
                         Text(
                           'Following',
                           style: TextStyle(
@@ -176,16 +178,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               0x93000000,
                             ),
                           ),
-                        )],
+                        )
+                      ],
                     )),
               ),
             ],
           ),
         ),
-        TextButton(onPressed: ()async{
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          preferences.remove('uid').then((value) => setState((){}));
-        },child: Text('Logout'),),
+        TextButton(
+          onPressed: () async {
+            SharedPreferences preferences =
+                await SharedPreferences.getInstance();
+            preferences
+                .remove('uid')
+                .then((value) => setState(() {}))
+                .then((value) {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => LoginScreen(),
+                ),
+              );
+              print(preferences.get('uid'));
+            });
+          },
+          child: Text('Logout'),
+        ),
       ],
     );
   }

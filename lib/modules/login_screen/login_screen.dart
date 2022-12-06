@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inbox/modules/main_page.dart';
 import 'package:inbox/modules/signup_screen/signup_screen.dart';
 import 'package:inbox/shared/widgets/checkbox_style_1.dart';
 import 'package:page_transition/page_transition.dart';
@@ -27,9 +28,18 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocProvider<LoginCubit>(
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginState>(
-        listener: (context, state) {},
-        builder: (context, state){
-          if (state is LoginLoadingState) {
+        listener: (context, state) {
+          if (state is LoginSuccessState) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const MainPage(),
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+           if (state is LoginLoadingState) {
             return const Scaffold(
               body: Center(
                 child: CircularProgressIndicator(),
