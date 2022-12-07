@@ -61,10 +61,13 @@ class RegisterCubit extends Cubit<RegisterState> {
     }).catchError((error) {
       error = error.toString();
       String err = error.substring(error.indexOf(']') + 1, error.indexOf('.'));
-      // print(err);
+      print('This is the error :     ===== >>>    $err');
       emit(RegisterErrorState(err));
     });
   }
+
+
+
 
   void reloadRegisterPage() {
     emit(RegisterInitialState());
@@ -98,6 +101,8 @@ class RegisterCubit extends Cubit<RegisterState> {
         city: city,
         gender: gender
     );
+
+    print('=============================>>> Here creatnig user');
 
     FirebaseFirestore.instance
         .collection('users')
