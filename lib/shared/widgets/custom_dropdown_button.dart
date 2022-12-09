@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomDropdownButton extends StatefulWidget {
   CustomDropdownButton({Key? key, required this.items,required this.dropdownValue, required this.label}) : super(key: key);
 
-  String dropdownValue;
+  TextEditingController dropdownValue;
   final List<String> items;
   final String label;
 
@@ -45,7 +45,8 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                 .toList(),
             onChanged: (city) {
               setState(() {
-                widget.dropdownValue = city.toString();
+                widget.dropdownValue.text = city.toString();
+                print('widget.dropdownValue = ${city.toString()}');
               });
             },
             isExpanded: true,

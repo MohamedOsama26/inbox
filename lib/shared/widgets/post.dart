@@ -1,8 +1,6 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
 import 'package:inbox/shared/widgets/resize_text_feild.dart';
-// import 'package:flutter/services.dart';
 
 class Post extends StatefulWidget {
   const Post({super.key});
@@ -18,21 +16,18 @@ void submittedEffect(BuildContext context) async {
       elevation: 0,
       content: Container(
         decoration: BoxDecoration(
-          color: const Color(0x8C000000),
-          borderRadius: BorderRadius.circular(50)
-        ),
-        margin: const EdgeInsets.symmetric(horizontal : 16.0),
+            color: const Color(0x8C000000),
+            borderRadius: BorderRadius.circular(50)),
+        margin: const EdgeInsets.symmetric(horizontal: 16.0),
         height: 50,
         child: const Center(
-          child: Text('D o n e  \u{1F609}',
-            style: TextStyle(
-              fontSize: 20,
-              color: Color(0xDAFFFFFF)
-            ),
+          child: Text(
+            'D o n e  \u{1F609}',
+            style: TextStyle(fontSize: 20, color: Color(0xDAFFFFFF)),
           ),
         ),
       ),
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     ),
   );
 }
@@ -224,10 +219,11 @@ class _PostState extends State<Post> {
                       width: 2.0,
                     ),
                     Expanded(
-                      child:
-                          ResizeTextField(commentController: commentController,multiLine: true,
-                             padding: EdgeInsets.symmetric(vertical: 4,horizontal: 2)
-                          ),
+                      child: ResizeTextField(
+                          commentController: commentController,
+                          multiLine: true,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4, horizontal: 2)),
                     ),
                     const SizedBox(
                       width: 2.0,
@@ -235,11 +231,11 @@ class _PostState extends State<Post> {
                     CircleAvatar(
                         child: IconButton(
                       onPressed: () {
-                        if(commentController.text.isNotEmpty) {
+                        if (commentController.text.isNotEmpty) {
                           FocusScope.of(context).unfocus();
                           submittedEffect(context);
                           commentController.clear();
-                        }else{
+                        } else {
                           FocusScope.of(context).unfocus();
                         }
                       },

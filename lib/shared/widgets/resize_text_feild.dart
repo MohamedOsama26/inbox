@@ -29,7 +29,7 @@ class _ResizeTextFieldState extends State<ResizeTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       padding: const EdgeInsets.symmetric(
         horizontal: 8,
       ),
@@ -51,7 +51,7 @@ class _ResizeTextFieldState extends State<ResizeTextField> {
         keyboardType: TextInputType.multiline,
         decoration: InputDecoration(
           contentPadding: widget.padding,
-            focusColor: Color(0xFF00FF73), border: InputBorder.none),
+            focusColor: const Color(0xFF00FF73), border: InputBorder.none),
         cursorColor: Colors.transparent,
         style: const TextStyle(
           decorationColor: Colors.transparent,

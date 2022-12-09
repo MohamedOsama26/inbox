@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inbox/models/register_cubit/register_cubit.dart';
+import 'package:inbox/modules/main_page.dart';
 import 'package:inbox/shared/links.dart';
 import 'package:inbox/shared/widgets/custom_dropdown_button.dart';
 import 'package:inbox/shared/widgets/text_field_style_1.dart';
@@ -67,16 +68,22 @@ class _RegisterNewUserInformationState
   String gender = 'Male';
 
   @override
-  Widget build(BuildContext context1) {
+  Widget build(BuildContext context) {
     return BlocConsumer<RegisterCubit, RegisterState>(
-  listener: (context, state) {},
+      listener: (context,state){
+        if(state is RegisterSuccessState){
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const MainPage()));
+        }
+      },
   builder: (context, state) {
-    print(state);
+    // if(state is RegisterSuccessState){
+    //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const MainPage()));
+    // }
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        foregroundColor: Color(0x8B000000),
+        foregroundColor: const Color(0x8B000000),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -84,16 +91,15 @@ class _RegisterNewUserInformationState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // SizedBox(height: 30,),
               Text(
                 'Welcome',
                 style: TextStyle(
-                    fontSize: Theme.of(context1).textTheme.headline5!.fontSize),
+                    fontSize: Theme.of(context).textTheme.headline5!.fontSize),
               ),
               Text(
                 'We wanna know more about you!',
                 style: TextStyle(
-                    fontSize: Theme.of(context1).textTheme.headline6!.fontSize,
+                    fontSize: Theme.of(context).textTheme.headline6!.fontSize,
                     color: Colors.black26),
               ),
               const SizedBox(height: 40.0),
@@ -103,30 +109,60 @@ class _RegisterNewUserInformationState
                   children: [
                     TextFieldStyle1(
                       controller: nameController,
-                      label: 'Name',
+                      label: 'First name',
                       validationFunction: (value){
-                        if(value == null){
-                          return 'Your name is required';
+                        if(value == null || value.trim().isEmpty){
+                          return 'Your first name is required';
                         }
                         return null;
                       },
                     ),
                     TextFieldStyle1(
                       controller: nicknameController,
-                      label: 'Nickname',
+                      label: 'Last name',
+                      validationFunction: (value){
+                        if(value == null || value.trim().isEmpty){
+                          return 'Your last name is required';
+                        }
+                        return null;
+                      },
                     ),
                     TextFieldStyle1(controller: bioController, label: 'bio...'),
                     GestureDetector(
-                        child: TextFieldStyle1(
+                        child:
+                        TextFieldStyle1(
+                          onTab: (){
+                            showDatePicker(
+                              context: context,
+                              initialDate: DateTime(
+                                  1999, DateTime.now().month, DateTime.now().day),
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime.now(),
+                            ).then((value) {
+                              if (value != null) {
+                                String formattedDate =
+                                DateFormat('d/MM/yyyy').format(value);
+                                setState(() {
+                                  birthDayController.text = formattedDate;
+                                });
+                              }
+                            });
+                          },
+
                           controller: birthDayController,
                           label: 'Birthday',
                           readOnly: true,
                           editable: false,
+                          validationFunction: (value){
+                            if( value == null || value.trim().isEmpty){
+                              return 'Your birthday is required';
+                            }
+                            return null;
+                          },
                         ),
                         onTap: () {
-                          print('tabbed');
                           showDatePicker(
-                            context: context1,
+                            context: context,
                             initialDate: DateTime(
                                 1999, DateTime.now().month, DateTime.now().day),
                             firstDate: DateTime(1900),
@@ -140,16 +176,17 @@ class _RegisterNewUserInformationState
                               });
                             }
                           });
-                        }),
-                    CustomDropdownButton(items: cities, label: 'City',dropdownValue: currentCity.text),
-                    SizedBox(
+                        }
+                        ),
+                    CustomDropdownButton(items: cities, label: 'City',dropdownValue: currentCity),
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
                       children: [
                         Expanded(
                           child: RadioListTile(
-                              title: Text('Male'),
+                              title: const Text('Male'),
                               value: 'Male',
                               groupValue: gender,
                               onChanged: (val) {
@@ -160,7 +197,7 @@ class _RegisterNewUserInformationState
                         ),
                         Expanded(
                           child: RadioListTile(
-                              title: Text('Female'),
+                              title: const Text('Female'),
                               value: 'Female',
                               groupValue: gender,
                               onChanged: (val) {
@@ -171,27 +208,30 @@ class _RegisterNewUserInformationState
                         ),
                       ],
                     ),
-                    TextButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            RegisterCubit.get(context1).register(
-                              context1,
-                              email: widget.email,
-                              password: widget.password,
-                              phone: widget.phone,
-                              name: nameController.text,
-                              nickname: nicknameController.text,
-                              bio: bioController.text,
-                              birthday: birthDayController.text,
-                              backgroundPicture: backgroundProfilePicture,
-                              city: currentCity.text,
-                              gender: gender,
-                              profilePicture: profilePicture,
-                            );
-                          }
-                          // print(genderController.text);
-                        },
-                        child: Text('Print')),
+                    const SizedBox(height: 30,),
+                    SizedBox(
+                      width: 100,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              RegisterCubit.get(context).register(
+                                context,
+                                email: widget.email,
+                                password: widget.password,
+                                phone: widget.phone,
+                                name: nameController.text,
+                                nickname: nicknameController.text,
+                                bio: bioController.text,
+                                birthday: birthDayController.text,
+                                backgroundPicture: backgroundProfilePicture,
+                                city: currentCity.text,
+                                gender: gender,
+                                profilePicture: profilePicture,
+                              );
+                            }
+                          },
+                          child: const Text('Let\'s go')),
+                    ),
                   ],
                 ),
               ),

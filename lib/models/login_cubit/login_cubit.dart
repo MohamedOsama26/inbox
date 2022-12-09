@@ -27,7 +27,6 @@ class LoginCubit extends Cubit<LoginState> {
     }).catchError((error) {
       error = error.toString();
       String err = error.substring(error.indexOf(']')+1,error.indexOf('.'));
-      print(err);
       emit(LoginErrorState(err));
     });
   }

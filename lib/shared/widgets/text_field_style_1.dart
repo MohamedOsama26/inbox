@@ -56,6 +56,9 @@ class TextFieldStyle1 extends StatelessWidget {
             obscureText: isPassword,
             autocorrect: !isPassword,
             decoration: InputDecoration(
+              errorStyle: TextStyle(
+                color: Theme.of(context).errorColor
+              ),
               contentPadding: const EdgeInsets.only(
                   top: 4.0, bottom: 4.0, right: 0.0, left: 16.0),
               border: OutlineInputBorder(
