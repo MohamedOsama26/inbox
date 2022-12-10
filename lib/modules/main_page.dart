@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inbox/main.dart';
+import 'package:inbox/models/social_cubit/social_cubit.dart';
 import 'package:inbox/modules/chatting_list_screen/chatting_list_screen.dart';
 import 'package:inbox/modules/home_screen/home_screen.dart';
 import 'package:inbox/modules/profile_screen/profile_screen.dart';
@@ -19,7 +22,9 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider<SocialCubit>(
+  create: (context) => SocialCubit()..getUserData(uid),
+  child: Scaffold(
       bottomNavigationBar:  InboxNavBar(controller: controller,pageIndex: currentPageIndex),
       body: SafeArea(
         child: Container(
@@ -30,8 +35,6 @@ class _MainPageState extends State<MainPage> {
               color: Colors.white
           ),
           child: PageView(
-
-
             controller: controller,
               children:   [
             HomeScreen(),
@@ -48,6 +51,7 @@ class _MainPageState extends State<MainPage> {
 
         ),
       ),
-    );
+    ),
+);
   }
 }

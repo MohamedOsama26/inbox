@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inbox/firebase_options.dart';
 import 'package:inbox/models/register_cubit/register_cubit.dart';
+import 'package:inbox/models/social_cubit/social_cubit.dart';
 import 'package:inbox/modules/login_screen/login_screen.dart';
 import 'package:inbox/modules/main_page.dart';
 import 'package:inbox/shared/bloc_observer.dart';
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<RegisterCubit>(
           create: (BuildContext context) => RegisterCubit(),
         ),
+        // BlocProvider<SocialCubit>(
+        //   create: (BuildContext context) => SocialCubit(),
+        // ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

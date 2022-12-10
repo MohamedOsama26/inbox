@@ -18,7 +18,7 @@ class LoginCubit extends Cubit<LoginState> {
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) async {
-      emit(LoginSuccessState());
+      // emit(LoginSuccessState());
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('uid', value.user!.uid);
@@ -35,9 +35,7 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginInitialState());
   }
 
-  void checkUid(){
 
-  }
 
   void makeError() {
     emit(LoginErrorState('Error Made'));

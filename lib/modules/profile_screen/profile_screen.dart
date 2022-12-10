@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inbox/models/social_cubit/social_cubit.dart';
 import 'package:inbox/modules/login_screen/login_screen.dart';
 import 'package:inbox/shared/links.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,176 +15,198 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-        return Column(
-          children: [
-            Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                Container(
-                  height: 250,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20)),
-                    image: DecorationImage(
-                      alignment: Alignment.topCenter,
-                      image: NetworkImage(backgroundProfilePicture),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  height: 100,
-                  padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
-                      color: Colors.white, shape: BoxShape.circle),
-                  child: CircleAvatar(
-                    // radius: 15.0,
-                    backgroundImage: NetworkImage(profilePicture),
-                  ),
-                ),
-              ],
-            ),
-            const Text(
-              'Try to be perfect \u{1F44C}',
-              style: TextStyle(
-                  height: 2,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xE2383838)),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Row(
+    return BlocConsumer<SocialCubit, SocialState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        if(state is ProfileInfoSuccessState){
+          return Column(
+            children: [
+              Stack(
+                alignment: Alignment.bottomCenter,
                 children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        print('1');
-                      },
-                      child: Column(
-                        children: const [
-                          Text(
-                            '100',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            'Posts',
-                            style: TextStyle(
-                              fontSize: 14,
-                              height: 1.5,
-                              color: Color(
-                                0x93000000,
-                              ),
-                            ),
-                          )
-                        ],
+                  Container(
+                    height: 250,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20)),
+                      image: DecorationImage(
+                        alignment: Alignment.topCenter,
+                        image: NetworkImage(backgroundProfilePicture),
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: InkWell(
-                        onTap: () {
-                          print('2');
-                        },
-                        child: Column(
-                          children: const [
-                            Text(
-                              '1439',
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              'Followers',
-                              style: TextStyle(
-                                fontSize: 14,
-                                height: 1.5,
-                                color: Color(
-                                  0x93000000,
-                                ),
-                              ),
-                            )
-                          ],
-                        )),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        print('3');
-                      },
-                      child: Column(
-                        children: const [
-                          Text(
-                            '23k',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            'Media',
-                            style: TextStyle(
-                              fontSize: 14,
-                              height: 1.5,
-                              color: Color(
-                                0x93000000,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                  Container(
+                    width: 100,
+                    height: 100,
+                    padding: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                        color: Colors.white, shape: BoxShape.circle),
+                    child: CircleAvatar(
+                      // radius: 15.0,
+                      backgroundImage: NetworkImage(profilePicture),
                     ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                        onTap: () {
-                          print('4');
-                        },
-                        child: Column(
-                          children: const [
-                            Text(
-                              '42k',
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              'Following',
-                              style: TextStyle(
-                                fontSize: 14,
-                                height: 1.5,
-                                color: Color(
-                                  0x93000000,
-                                ),
-                              ),
-                            )
-                          ],
-                        )),
                   ),
                 ],
               ),
-            ),
-            TextButton(
-              onPressed: () async {
-                SharedPreferences preferences =
-                await SharedPreferences.getInstance();
-                preferences
-                    .remove('uid')
-                    .then((value) => setState(() {}))
-                    .then((value) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => LoginScreen(),
+              Text(
+                SocialCubit.get(context).model!.name,
+                style: const TextStyle(
+                    height: 2,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xE2383838)),
+              ),
+               Text(
+                SocialCubit.get(context).model!.bio,
+                style: const TextStyle(
+                    height: 2,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xE2383838)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          print('1');
+                        },
+                        child: Column(
+                          children: const [
+                            Text(
+                              '100',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              'Posts',
+                              style: TextStyle(
+                                fontSize: 14,
+                                height: 1.5,
+                                color: Color(
+                                  0x93000000,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                  );
-                  print(preferences.get('uid'));
-                });
-              },
-              child: Text('Logout'),
-            ),
-          ],
-        );
+                    Expanded(
+                      child: InkWell(
+                          onTap: () {
+                            print('2');
+                          },
+                          child: Column(
+                            children: const [
+                              Text(
+                                '1439',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                'Followers',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  height: 1.5,
+                                  color: Color(
+                                    0x93000000,
+                                  ),
+                                ),
+                              )
+                            ],
+                          )),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          print('3');
+                        },
+                        child: Column(
+                          children: const [
+                            Text(
+                              '23k',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              'Media',
+                              style: TextStyle(
+                                fontSize: 14,
+                                height: 1.5,
+                                color: Color(
+                                  0x93000000,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                          onTap: () {
+                            print('4');
+                          },
+                          child: Column(
+                            children: const [
+                              Text(
+                                '42k',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                'Following',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  height: 1.5,
+                                  color: Color(
+                                    0x93000000,
+                                  ),
+                                ),
+                              )
+                            ],
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  SharedPreferences preferences =
+                  await SharedPreferences.getInstance();
+                  preferences
+                      .remove('uid')
+                      .then((value) => setState(() {}))
+                      .then((value) {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(),
+                      ),
+                    );
+                    print(preferences.get('uid'));
+                  });
+                },
+                child: Text('Logout'),
+              ),
+            ],
+          );
+        }
+        else if(state is ProfileInfoErrorState){
+          return Center(
+            child: Text(state.error),
+          );
+        }
+        return Center(child: const CircularProgressIndicator());
+
+      },
+    );
   }
 }

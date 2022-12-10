@@ -23,7 +23,6 @@ class CreatingUserErrorState extends RegisterState {
   final String error;
 
   CreatingUserErrorState(this.error);
-
 }
 
 

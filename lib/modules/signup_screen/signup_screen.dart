@@ -27,7 +27,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RegisterCubit, RegisterState>(
+    return BlocProvider<RegisterCubit>(
+  create: (context) => RegisterCubit(),
+  child: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
       // if(state is )
     }, builder: (context, state) {
@@ -321,6 +323,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ),
       );
-    });
+    }),
+);
   }
 }
