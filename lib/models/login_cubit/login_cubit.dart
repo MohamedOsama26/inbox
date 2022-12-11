@@ -9,35 +9,28 @@ class LoginCubit extends Cubit<LoginState> {
 
   static LoginCubit get(context) => BlocProvider.of(context);
 
-  void login (context,
+  void login(context,
       {required String email,
       required String password,
       required bool remember}) {
-
     emit(LoginLoadingState());
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) async {
-      // emit(LoginSuccessState());
+      if (remember == true) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('uid', value.user!.uid);
+      }
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('uid', value.user!.uid);
-
-      emit(LoginSuccessState());
+      emit(LoginSuccessState(value.user!.uid));
     }).catchError((error) {
       error = error.toString();
-      String err = error.substring(error.indexOf(']')+1,error.indexOf('.'));
+      String err = error.substring(error.indexOf(']') + 1, error.indexOf('.'));
       emit(LoginErrorState(err));
     });
   }
 
   void reloadLoginPage() {
     emit(LoginInitialState());
-  }
-
-
-
-  void makeError() {
-    emit(LoginErrorState('Error Made'));
   }
 }

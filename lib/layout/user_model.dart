@@ -1,9 +1,8 @@
 class UserModel {
   final String email;
-  // final String password;
   final String phone;
-  final String name;
-  final String nickname;
+  final String firstName;
+  final String lastName;
   final String birthday;
   final String city;
   final String gender;
@@ -14,7 +13,7 @@ class UserModel {
   final String uid;
 
   UserModel({
-    required this.nickname,
+    required this.lastName,
     required this.birthday,
     required this.city,
     required this.gender,
@@ -22,7 +21,7 @@ class UserModel {
     required this.backgroundPicture,
     required this.bio,
     required this.isEmailVerified,
-    required this.name,
+    required this.firstName,
     required this.uid,
     required this.email,
     required this.phone,
@@ -30,7 +29,7 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         email: json['email'],
-        name: json['name'],
+        firstName: json['firstName'],
         phone: json['phone'],
         uid: json['uid'],
         isEmailVerified: json['isEmailVerified'],
@@ -40,11 +39,11 @@ class UserModel {
         birthday: json['birthday'],
         city: json['city'],
         gender: json['gender'],
-        nickname: json['nickname'],
+        lastName: json['lastName'],
       );
 
   Map<String, dynamic> toJson() => {
-        'name': name,
+        'firstName': firstName,
         'phone': phone,
         'email': email,
         'uid': uid,
@@ -55,6 +54,6 @@ class UserModel {
         'birthday': birthday,
         'city': city,
         'gender': gender,
-        'nickname': nickname,
+        'lastName': lastName,
       };
 }

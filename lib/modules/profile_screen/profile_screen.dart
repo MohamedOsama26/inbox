@@ -18,7 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return BlocConsumer<SocialCubit, SocialState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if(state is ProfileInfoSuccessState){
+        if (state is ProfileInfoSuccessState) {
           return Column(
             children: [
               Stack(
@@ -43,21 +43,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     decoration: const BoxDecoration(
                         color: Colors.white, shape: BoxShape.circle),
                     child: CircleAvatar(
-                      // radius: 15.0,
                       backgroundImage: NetworkImage(profilePicture),
                     ),
                   ),
                 ],
               ),
               Text(
-                SocialCubit.get(context).model!.name,
+                '${SocialCubit.get(context).model!.firstName} ${SocialCubit.get(context).model!.lastName}',
                 style: const TextStyle(
                     height: 2,
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                     color: Color(0xE2383838)),
               ),
-               Text(
+              Text(
                 SocialCubit.get(context).model!.bio,
                 style: const TextStyle(
                     height: 2,
@@ -71,9 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: () {
-                          print('1');
-                        },
+                        onTap: () {},
                         child: Column(
                           children: const [
                             Text(
@@ -98,9 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Expanded(
                       child: InkWell(
-                          onTap: () {
-                            print('2');
-                          },
+                          onTap: () {},
                           child: Column(
                             children: const [
                               Text(
@@ -124,9 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Expanded(
                       child: InkWell(
-                        onTap: () {
-                          print('3');
-                        },
+                        onTap: () {},
                         child: Column(
                           children: const [
                             Text(
@@ -151,9 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Expanded(
                       child: InkWell(
-                          onTap: () {
-                            print('4');
-                          },
+                          onTap: () {},
                           child: Column(
                             children: const [
                               Text(
@@ -181,31 +172,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
               TextButton(
                 onPressed: () async {
                   SharedPreferences preferences =
-                  await SharedPreferences.getInstance();
+                      await SharedPreferences.getInstance();
                   preferences
                       .remove('uid')
                       .then((value) => setState(() {}))
                       .then((value) {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
+                        builder: (context) => const LoginScreen(),
                       ),
                     );
-                    print(preferences.get('uid'));
                   });
                 },
-                child: Text('Logout'),
+                child: const Text('Logout'),
               ),
             ],
           );
-        }
-        else if(state is ProfileInfoErrorState){
+        } else if (state is ProfileInfoErrorState) {
           return Center(
             child: Text(state.error),
           );
         }
-        return Center(child: const CircularProgressIndicator());
-
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }

@@ -3,7 +3,7 @@ import 'package:inbox/shared/widgets/post.dart';
 import 'package:inbox/shared/widgets/resize_text_feild.dart';
 
 class HomeScreen extends StatelessWidget {
-   HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
 
   final TextEditingController postController = TextEditingController();
 
@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       backgroundColor: Colors.blue,
@@ -34,34 +34,17 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: ResizeTextField(
-                      padding: EdgeInsets.all( 0),
+                      padding: const EdgeInsets.all(0),
                       multiLine: false,
                       commentController: postController,
                     ),
                   ),
-                  // Expanded(
-                  //   child: Container(
-                  //     height: 40,
-                  //     padding: EdgeInsets.symmetric(horizontal: 8),
-                  //     child: TextFormField(
-                  //     onTap: (){},
-                  //     scrollPadding: EdgeInsets.all(0),
-                  //     decoration: InputDecoration(
-                  //       contentPadding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(8)
-                  //       )
-                  //     ),
-                  // ),
-                  //   ),),
                   Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFF0F66E3)
-                    ),
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle, color: Color(0xFF0F66E3)),
                     child: IconButton(
                       onPressed: () {},
-                      icon: Icon(Icons.post_add),
+                      icon: const Icon(Icons.post_add),
                       color: Colors.white,
                     ),
                   ),

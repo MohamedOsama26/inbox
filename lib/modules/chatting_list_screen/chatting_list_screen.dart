@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inbox/shared/widgets/person_card.dart';
-import 'package:inbox/shared/widgets/resize_text_feild.dart';
 
 class ChattingListScreen extends StatelessWidget {
   const ChattingListScreen({Key? key}) : super(key: key);
@@ -10,7 +9,6 @@ class ChattingListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         //The application bar for chatting page
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -43,7 +41,7 @@ class ChattingListScreen extends StatelessWidget {
         //The list of chats
         Expanded(
           child: ListView.separated(
-            physics: PageScrollPhysics(),
+            physics: const PageScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return PersonCard(
                 birthday: DateTime(1999, 12, 2),

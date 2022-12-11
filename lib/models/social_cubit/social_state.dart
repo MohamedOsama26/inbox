@@ -11,6 +11,5 @@ class ProfileInfoSuccessState extends SocialState {}
 
 class ProfileInfoErrorState extends SocialState {
   final String error;
-
   ProfileInfoErrorState(this.error);
 }

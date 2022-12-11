@@ -7,15 +7,12 @@ part 'user_state.dart';
 class UserCubit extends Cubit<UserState> {
   UserCubit() : super(UserInitial());
 
-  void openIntro()async{
+  void openIntro() async {
     emit(UserLoading());
     String? uid;
-    SharedPreferences.getInstance().then((preference){
-     uid = preference.getString('uid');
-     if(uid!= null){
-
-     }
+    SharedPreferences.getInstance().then((preference) {
+      uid = preference.getString('uid');
+      if (uid != null) {}
     });
-
   }
 }

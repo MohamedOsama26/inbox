@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inbox/shared/links.dart';
 import 'package:video_player/video_player.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-
 
 class ReelsScreen extends StatefulWidget {
   const ReelsScreen({Key? key}) : super(key: key);
@@ -12,9 +10,6 @@ class ReelsScreen extends StatefulWidget {
 }
 
 class _ReelsScreenState extends State<ReelsScreen> {
-
-
-
   // String getUrl ()async{
   //
   //   Reference ref = FirebaseStorage.instance.ref().child("/2022-11-29 15-35-28.mkv");
@@ -61,7 +56,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
   //     ..initialize().then((value) => setState(() {}));
   // }
   final VideoPlayerController _controller = VideoPlayerController.network(
-      zombieSongLink,
+    zombieSongLink,
   );
   late Future<void> _initializeVideoPlayerFuture;
 
@@ -70,7 +65,6 @@ class _ReelsScreenState extends State<ReelsScreen> {
 
   @override
   void initState() {
-
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
     _controller.setVolume(1.0);
@@ -96,8 +90,6 @@ class _ReelsScreenState extends State<ReelsScreen> {
       child: FutureBuilder(
         future: _initializeVideoPlayerFuture,
         builder: (context, snapshot) {
-          print(
-              '========================= ${MediaQuery.of(context).size.width}');
           if (snapshot.connectionState == ConnectionState.done) {
             return Container(
                 decoration:
@@ -109,7 +101,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
                   ),
                 ));
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -123,11 +115,11 @@ class _ReelsScreenState extends State<ReelsScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('\u{1FAE3}'),
+        const Text('\u{1FAE3}'),
         Container(
           height: 200,
-          margin: EdgeInsets.symmetric(vertical: 20),
-          child: SizedBox(
+          margin: const EdgeInsets.symmetric(vertical: 20),
+          child: const SizedBox(
             height: 100,
             // child: ListView.separated(
             //   scrollDirection: Axis.horizontal,
