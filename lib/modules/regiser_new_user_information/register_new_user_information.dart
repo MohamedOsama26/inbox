@@ -72,7 +72,7 @@ class _RegisterNewUserInformationState
     return BlocConsumer<RegisterCubit, RegisterState>(
       listener: (context,state){
         if(state is RegisterSuccessState){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const MainPage()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MainPage(state.id)));
         }
       },
   builder: (context, state) {
@@ -219,8 +219,8 @@ class _RegisterNewUserInformationState
                                 email: widget.email,
                                 password: widget.password,
                                 phone: widget.phone,
-                                name: nameController.text,
-                                nickname: nicknameController.text,
+                                firstName: nameController.text,
+                                lastName: nicknameController.text,
                                 bio: bioController.text,
                                 birthday: birthDayController.text,
                                 backgroundPicture: backgroundProfilePicture,
