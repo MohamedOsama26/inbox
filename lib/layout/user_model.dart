@@ -11,8 +11,10 @@ class UserModel {
   final String bio;
   bool isEmailVerified = false;
   final String uid;
+  final String title;
 
   UserModel({
+    required this.title,
     required this.lastName,
     required this.birthday,
     required this.city,
@@ -40,6 +42,7 @@ class UserModel {
         city: json['city'],
         gender: json['gender'],
         lastName: json['lastName'],
+        title: json['title'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,5 +58,6 @@ class UserModel {
         'city': city,
         'gender': gender,
         'lastName': lastName,
+        'title': title,
       };
 }

@@ -53,7 +53,7 @@ class _InboxNavBarState extends State<InboxNavBar> {
           ),
           IconButton(
             color: widget.pageIndex == 2 ? const Color(0xFFFF4747):const Color(0xFF000000),
-            icon: const Icon(InboxNavigationIcons.StoryIcon),
+            icon: const Icon(Icons.notifications),
             onPressed: () {
               if (widget.controller.hasClients) {
                 widget.controller.animateToPage(2,

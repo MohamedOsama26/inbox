@@ -36,6 +36,7 @@ class _RegisterNewUserInformationState
   final TextEditingController cityController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
   final TextEditingController currentCity = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
   final List<String> cities = [
     'Cairo',
     'Alexandria',
@@ -129,6 +130,7 @@ class _RegisterNewUserInformationState
                       },
                     ),
                     TextFieldStyle1(controller: bioController, label: 'bio...'),
+                    TextFieldStyle1(controller: titleController, label: 'Title'),
                     GestureDetector(
                         child:
                         TextFieldStyle1(
@@ -228,6 +230,7 @@ class _RegisterNewUserInformationState
                                 city: currentCity.text,
                                 gender: gender,
                                 profilePicture: profilePicture,
+                                title: titleController.text == '' ? '...': titleController.text,
                               );
                             }
                           },

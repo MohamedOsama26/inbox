@@ -63,7 +63,7 @@ class TextFieldStyle1 extends StatelessWidget {
                   top: 4.0, bottom: 4.0, right: 0.0, left: 16.0),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4.0),
-                borderSide: BorderSide(width: 2,color: Colors.black45)
+                borderSide: const BorderSide(width: 2,color: Colors.black45)
               ),
               hintText: hint,
               suffixIcon: SizedBox(

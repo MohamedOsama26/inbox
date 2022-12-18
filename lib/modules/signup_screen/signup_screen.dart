@@ -255,11 +255,9 @@ class _SignupScreenState extends State<SignupScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const [
                                 Icon(
-                                  IconData(
-                                    0xf1a0,
-                                    fontFamily: 'icons',
-                                  ),
+                                  Icons.g_mobiledata_rounded,
                                   color: Colors.deepOrangeAccent,
+                                  size: 36,
                                 ),
                                 SizedBox(
                                   width: 6.0,
