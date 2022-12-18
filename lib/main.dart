@@ -8,6 +8,8 @@ import 'package:inbox/modules/main_page.dart';
 import 'package:inbox/shared/bloc_observer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'models/social_cubit/social_cubit.dart';
+
 String? uid;
 
 void main() async {
@@ -32,9 +34,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<RegisterCubit>(
           create: (BuildContext context) => RegisterCubit(),
         ),
-        // BlocProvider<SocialCubit>(
-        //   create: (BuildContext context) => SocialCubit(),
-        // ),
+        BlocProvider<SocialCubit>(
+          create: (BuildContext context) => SocialCubit(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

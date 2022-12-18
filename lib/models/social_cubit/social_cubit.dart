@@ -23,4 +23,30 @@ class SocialCubit extends Cubit<SocialState> {
       emit(ProfileInfoErrorState(error.toString()));
     });
   }
+
+  void updatePersonalInfo({
+    String? id,
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String birthday,
+    required String title,
+    required String bio
+}){
+    emit(ProfileInfoLoadingState());
+
+    Map<String,dynamic> updatedModel = {
+      'firstName':firstName,
+      'lastName':lastName,
+      'email':email,
+      'birthday': birthday,
+      'title': title,
+      'bio': bio
+    };
+
+    FirebaseFirestore.instance.collection('users').doc(id).update(updatedModel).catchError((err){
+      emit(ProfileInfoErrorState(err.toString()));
+    });
+  }
+
 }

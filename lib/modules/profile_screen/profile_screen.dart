@@ -6,6 +6,8 @@ import 'package:inbox/modules/settings_screen/settings_screen.dart';
 import 'package:inbox/shared/links.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../main.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -379,38 +381,62 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40.0),
-                child: Divider(height: 20,),
+                child: Divider(
+                  height: 20,
+                ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   color: const Color(0x6040000),
                   child: TextButton(
-                    style: const ButtonStyle(
-                        alignment: Alignment.centerLeft
-                    ),
+                    style: const ButtonStyle(alignment: Alignment.centerLeft),
                     onPressed: () {
                       print('Friends');
                     },
                     child: const Text(
                       'Friends',
                       textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.black45,fontSize: 16),
+                      style: TextStyle(color: Colors.black45, fontSize: 16),
                     ),
                   )),
               Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   color: const Color(0x00040000),
                   child: TextButton(
-                    style:  ButtonStyle(
-                        alignment: Alignment.centerLeft
-                    ),
+                    style: ButtonStyle(alignment: Alignment.centerLeft),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context,)=> SettingsScreen()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (
+                      //       context,
+                      //     ) =>
+                      //             BlocProvider.value(
+                      //               value:
+                      //                   BlocProvider.of(context).SocialCubit(),
+                      //             )));
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return BlocProvider.value(
+                              value: BlocProvider.of<SocialCubit>(context),
+                              child: SettingsScreen(),
+                            );
+                          },
+                        ),
+                      );
+
+
+
+
+
                     },
                     child: const Text(
                       'Settings',
                       textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.black45,fontSize: 16),
+                      style: TextStyle(color: Colors.black45, fontSize: 16),
                     ),
                   )),
               Container(
@@ -418,12 +444,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: const Color(0x06040000),
                   child: TextButton(
                     style: ButtonStyle(
-                        padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 4,horizontal: 8)),
-                        alignment: Alignment.centerLeft
-                    ),
+                        padding: MaterialStateProperty.all(
+                            const EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 8)),
+                        alignment: Alignment.centerLeft),
                     onPressed: () async {
                       SharedPreferences preferences =
-                      await SharedPreferences.getInstance();
+                          await SharedPreferences.getInstance();
                       preferences
                           .remove('uid')
                           .then((value) => setState(() {}))
@@ -438,7 +465,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: const Text(
                       textAlign: TextAlign.left,
                       'Logout',
-                      style: TextStyle(color: Colors.black45,fontSize: 16),
+                      style: TextStyle(color: Colors.black45, fontSize: 16),
                     ),
                   )),
             ],
