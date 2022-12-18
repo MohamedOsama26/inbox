@@ -19,8 +19,8 @@ class RegisterCubit extends Cubit<RegisterState> {
     required String email,
     required String password,
     required String phone,
-    required String name,
-    required String nickname,
+    required String firstName,
+    required String lastName,
     required String birthday,
     required String city,
     required String gender,
@@ -40,13 +40,13 @@ class RegisterCubit extends Cubit<RegisterState> {
       creatingUser(
         email: email,
         phone: phone,
-        name: name,
+        firstName: firstName,
         uid: value.user!.uid,
         backgroundPicture: backgroundPicture,
         bio: bio,
         profilePicture: profilePicture,
         isEmailVerified: isEmailVerified,
-        nickname: nickname,
+        lastName: lastName,
         birthday: birthday,
         city: city,
         gender: gender,
@@ -101,7 +101,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   void creatingUser({
-    required String name,
+    required String firstName,
     required String email,
     required String phone,
     required String uid,
@@ -109,7 +109,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     required String profilePicture,
     required String backgroundPicture,
     required String bio,
-    required String nickname,
+    required String lastName,
     required String birthday,
     required String city,
     required String gender,
@@ -118,27 +118,19 @@ class RegisterCubit extends Cubit<RegisterState> {
         uid: uid,
         email: email,
         phone: phone,
-        name: name,
+        firstName: firstName,
         isEmailVerified: isEmailVerified,
         profilePicture: profilePicture,
         bio: bio,
         backgroundPicture: backgroundPicture,
-        nickname: nickname,
+        lastName: lastName,
         birthday: birthday,
         city: city,
         gender: gender
     );
-
-    print('=============================>>> Here creatnig user');
-
     FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
         .set(userModel.toJson());
-    //     .then((value) {
-    //   emit(CreatingUserSuccessState());
-    // }).catchError((error) {
-    //   emit(CreatingUserErrorState(error.toString()));
-    // });
   }
 }

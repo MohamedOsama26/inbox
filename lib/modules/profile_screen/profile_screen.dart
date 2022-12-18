@@ -50,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
               Text(
-                SocialCubit.get(context).model!.name,
+                SocialCubit.get(context).model!.firstName,
                 style: const TextStyle(
                     height: 2,
                     fontSize: 18,
