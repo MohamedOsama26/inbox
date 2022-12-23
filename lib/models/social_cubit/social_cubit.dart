@@ -12,16 +12,30 @@ class SocialCubit extends Cubit<SocialState> {
 
   UserModel? model;
 
-  void getUserData(String? id) {
+  void getUserData(String? id) async {
     emit(ProfileInfoLoadingState());
-
     FirebaseFirestore.instance.collection('users').doc(id).get().then((value) {
       model = UserModel.fromJson(value.data()!);
-
-      emit(ProfileInfoSuccessState());
+      emit(ProfileInfoSuccessState(model));
     }).catchError((error) {
       emit(ProfileInfoErrorState(error.toString()));
     });
+  }
+
+  void reloadPersonalInfo(String? id) {
+    emit(ProfileInfoReloadingState());
+    FirebaseFirestore.instance.collection('users').doc(id).get().then((value) {
+      model = UserModel.fromJson(value.data()!);
+      emit(ProfileInfoSuccessState(model));
+    }).catchError((error) {
+      emit(ProfileInfoErrorState(error.toString()));
+    });
+    // model = UserModel.fromJson(snapshot.data()!);
+
+    //   emit(ProfileInfoSuccessState(model));
+    // }catch(error){
+    //   emit(ProfileInfoErrorState(error.toString()));
+    // }
   }
 
   void updatePersonalInfo({
@@ -31,22 +45,29 @@ class SocialCubit extends Cubit<SocialState> {
     required String email,
     required String birthday,
     required String title,
-    required String bio
-}){
+    required String bio,
+    required String currentCity,
+    required String phone,
+  }) async {
     emit(ProfileInfoLoadingState());
 
-    Map<String,dynamic> updatedModel = {
-      'firstName':firstName,
-      'lastName':lastName,
-      'email':email,
+    Map<String, dynamic> updatedModel = {
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
       'birthday': birthday,
       'title': title,
-      'bio': bio
+      'bio': bio,
+      'phone': phone,
+      'city': currentCity
     };
 
-    FirebaseFirestore.instance.collection('users').doc(id).update(updatedModel).catchError((err){
-      emit(ProfileInfoErrorState(err.toString()));
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(id)
+        .update(updatedModel)
+        .catchError((error) {
+      emit(ProfileInfoErrorState(error.toString()));
     });
   }
-
 }

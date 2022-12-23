@@ -37,35 +37,6 @@ class _RegisterNewUserInformationState
   final TextEditingController bioController = TextEditingController();
   final TextEditingController currentCity = TextEditingController();
   final TextEditingController titleController = TextEditingController();
-  final List<String> cities = [
-    'Cairo',
-    'Alexandria',
-    'Giza',
-    'Qalyubia',
-    'Port Said',
-    'Suez',
-    'Gharbia',
-    'Dakahlia',
-    'Asyut',
-    'Fayoum',
-    'Sharqia',
-    'Ismailia',
-    'Aswan',
-    'Beheira',
-    'Minya',
-    'Damietta',
-    'Luxor',
-    'Qena',
-    'Beni Suef',
-    'Sohag',
-    'Monufia',
-    'Red Sea',
-    'Kafr el-Sheikh',
-    'North Sinai',
-    'Matruh',
-    'New Valley',
-    'South Sinai',
-  ];
   String gender = 'Male';
 
   @override

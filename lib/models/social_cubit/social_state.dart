@@ -7,9 +7,16 @@ class SocialInitial extends SocialState {}
 
 class ProfileInfoLoadingState extends SocialState {}
 
-class ProfileInfoSuccessState extends SocialState {}
+class ProfileInfoSuccessState extends SocialState {
+  UserModel? model;
+  ProfileInfoSuccessState(this.model);
+}
 
 class ProfileInfoErrorState extends SocialState {
   final String error;
   ProfileInfoErrorState(this.error);
 }
+
+class ProfileInfoReloadingState extends SocialState {}
+
+// class ProfileInfoEdited extends SocialState {}

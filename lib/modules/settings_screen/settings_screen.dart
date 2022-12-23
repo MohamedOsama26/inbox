@@ -4,7 +4,10 @@ import 'package:inbox/layout/user_model.dart';
 import 'package:inbox/main.dart';
 import 'package:inbox/models/social_cubit/social_cubit.dart';
 import 'package:inbox/shared/links.dart';
+import 'package:inbox/shared/widgets/custom_dropdown_button.dart';
 import 'package:inbox/shared/widgets/text_field_style_1.dart';
+import 'package:intl/intl.dart';
+
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({
@@ -23,29 +26,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool isReadOnly = true;
-  bool isEditable = false;
+  final TextEditingController currentCity = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  bool isReadOnly = false;
+  bool isEditable = true;
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  // String buttonContent = 'Change info';
+
+
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SocialCubit>(
-      create: (context) => SocialCubit()..getUserData(uid),
-      child: BlocConsumer<SocialCubit, SocialState>(
+    return BlocConsumer<SocialCubit, SocialState>(
         listener: (context, state) {
-          if (state is ProfileInfoSuccessState) {
-            firstNameController.text =
-                SocialCubit.get(context).model!.firstName;
-            lastNameController.text = SocialCubit.get(context).model!.lastName;
-            emailController.text = SocialCubit.get(context).model!.email;
-            titleController.text = SocialCubit.get(context).model!.title;
-            bioController.text = SocialCubit.get(context).model!.bio;
-            birthdayController.text = SocialCubit.get(context).model!.birthday;
-          }
+          print('---------------------------------------------------');
+          print('Here the listener of blocConsumer in settings screen');
+          print('The current state is ${state}');
+          print('---------------------------------------------------');
         },
         builder: (context, state) {
+          print('---------------------------------------------------');
+          print('Here the builder of blocConsumer in settings screen');
+          print('The current state is ${state}');
+          print('---------------------------------------------------');
           if (state is ProfileInfoSuccessState) {
+            firstNameController.text = SocialCubit.get(context).model!.firstName;
+            lastNameController.text  = SocialCubit.get(context).model!.lastName;
+            emailController.text     = SocialCubit.get(context).model!.email;
+            titleController.text     = SocialCubit.get(context).model!.title;
+            bioController.text       = SocialCubit.get(context).model!.bio;
+            birthdayController.text  = SocialCubit.get(context).model!.birthday;
+            currentCity.text         = SocialCubit.get(context).model!.city;
+            phoneController.text     = SocialCubit.get(context).model!.phone;
             return Scaffold(
               appBar: AppBar(
                 title: const Text(
@@ -58,9 +70,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 leading: IconButton(
                   icon: const Icon(Icons.chevron_left),
                   onPressed: () async {
-                    print('============================== Pressed ================================');
-                    print(SocialCubit.get(context).model);
-                    print('============================== Pressed ================================');
                     if (checkChanges(SocialCubit.get(context).model!)) {
                       await showDialog(
                           context: context,
@@ -69,7 +78,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                                   // Edit database
                                   TextButton(
-                                    onPressed: () async{
+                                    onPressed: () {
                                       if (formKey.currentState!.validate()) {
                                         SocialCubit.get(context).updatePersonalInfo(
                                           id: uid,
@@ -78,13 +87,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           lastName: lastNameController.text,
                                           bio: bioController.text,
                                           birthday: birthdayController.text,
-                                            title: titleController.text == '' ? '...': titleController.text
+                                            title: titleController.text == '' ? '...': titleController.text,
+                                          currentCity: currentCity.text,
+                                          phone: phoneController.text,
+
                                         );
                                       }
-                                      await Navigator.of(context)..pop()..pop();
-                                      print('getting');
-                                      SocialCubit.get(context).getUserData(uid);
-                                      print(SocialCubit.get(context).model!.bio);
+                                      Navigator.of(context)..pop()..pop();
                                     },
                                     child: const Text('Keep'),
                                   ),
@@ -105,7 +114,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     vertical: 12.0, horizontal: 20.0),
                                 content: const Text(
                                     'Do you want to keep changes in your personal information'),
-                                actionsPadding: EdgeInsets.symmetric(horizontal: 18.0),
+                                actionsPadding: const EdgeInsets.symmetric(horizontal: 18.0),
                               ));
                     }else{
                       Navigator.pop(context);
@@ -206,19 +215,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ),
-                                TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        isReadOnly = !isReadOnly;
-                                        isEditable = !isEditable;
-                                        print('readOnly : $isReadOnly');
-                                        print('Editable : $isEditable');
-                                        print('====================');
-                                      });
-                                    },
-                                    child: Text(isReadOnly
-                                        ? 'Change info'
-                                        : 'Keep Changes'))
                               ],
                             ),
                             Row(
@@ -226,8 +222,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 Expanded(
                                   child: TextFieldStyle1(
                                     controller: firstNameController,
-                                    readOnly: isReadOnly,
-                                    editable: isEditable,
+                                    // readOnly: isReadOnly,
+                                    // editable: isEditable,
                                     label: 'First name',
                                     validationFunction: (value){
                                       if(value == null || value.trim().isEmpty){
@@ -243,8 +239,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 Expanded(
                                   child: TextFieldStyle1(
                                     controller: lastNameController,
-                                    readOnly: isReadOnly,
-                                    editable: isEditable,
+                                    // readOnly: isReadOnly,
+                                    // editable: isEditable,
                                     label: 'Last name',
                                     validationFunction: (value){
                                       if(value == null || value.trim().isEmpty){
@@ -258,34 +254,59 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                             TextFieldStyle1(
                               controller: emailController,
-                              readOnly: isReadOnly,
-                              editable: isEditable,
+                              // readOnly: isReadOnly,
+                              // editable: isEditable,
                               label: 'E-mail',
                             ),
+                            GestureDetector(
+                                child:
+                                TextFieldStyle1(
+                                  controller: birthdayController,
+                                  label: 'Birthday',
+                                  readOnly: true,
+                                  editable: false,
+                                  validationFunction: (value){
+                                    if( value == null || value.trim().isEmpty){
+                                      return 'Your birthday is required';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                onTap: () {
+                                  showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime(
+                                        1999, DateTime.now().month, DateTime.now().day),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime.now(),
+                                  ).then((value) {
+                                    if (value != null) {
+                                      String formattedDate =
+                                      DateFormat('d/MM/yyyy').format(value);
+                                      setState(() {
+                                        birthdayController.text = formattedDate;
+                                      });
+                                    }
+                                  });
+                                }
+                            ),
                             TextFieldStyle1(
-                              controller: birthdayController,
-                              readOnly: isReadOnly,
-                              editable: false,
-                              label: 'Birthday',
+                              controller: phoneController,
+                              label: 'Phone',
                             ),
                             TextFieldStyle1(
                               controller: titleController,
-                              readOnly: isReadOnly,
-                              editable: isEditable,
+                              // readOnly: isReadOnly,
+                              // editable: isEditable,
                               label: 'Title',
                             ),
                             TextFieldStyle1(
                               controller: bioController,
-                              readOnly: isReadOnly,
-                              editable: isEditable,
+                              // readOnly: isReadOnly,
+                              // editable: isEditable,
                               label: 'bio',
                             ),
-                            TextFieldStyle1(
-                              controller: passwordController,
-                              readOnly: true,
-                              editable: false,
-                              label: 'Password',
-                            ),
+                            CustomDropdownButton(items: cities, label: 'City',dropdownValue: currentCity),
                           ],
                         ),
                       ),
@@ -294,20 +315,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
             );
-          }
+          }if(state is ProfileInfoLoadingState){
+            SocialCubit.get(context).getUserData(uid);
+            return const Scaffold(body: Center(child: Text('Loading State'),),);
+          }else if(state is ProfileInfoErrorState){
+            return Scaffold(body: Text(state.error),);
+          }else {
+          SocialCubit.get(context).getUserData(uid);
           return Scaffold(
             body: Center(
-              child: CircularProgressIndicator(),
+              child: Text('the current state is : $state'),
             ),
           );
-        },
-      ),
-    );
+        }
+      },
+      );
   }
 
 
   bool checkChanges(UserModel model){
-    print('check Changes');
     return (firstNameController.text !=
         model.firstName ||
         lastNameController.text !=

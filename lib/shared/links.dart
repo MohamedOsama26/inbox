@@ -3,3 +3,33 @@ const String zombieSongLink = 'https://rr1---sn-4g5edndr.c.drive.google.com/vide
  String backgroundProfilePicture = 'https://img.freepik.com/free-photo/moon-light-shine-through-window-into-islamic-mosque-interior_1217-2597.jpg?w=1480&t=st=1670162733~exp=1670163333~hmac=6cabb3f720fa39a39de6970f6061721d2e9c039187e9634c909335b3b1857d91';
 
  String profilePicture = 'https://lh3.googleusercontent.com/u/1/drive-viewer/AFDK6gPA2aa7pJPjxae4DMKZFtgNOl7RhZzzoUMB1-Sd-uUsKIEraseFPCGNVMF-WBYtty7YmTTV0azYWhxjGw3uNykwWx8sXA=w1848-h995';
+
+final List<String> cities = [
+ 'Cairo',
+ 'Alexandria',
+ 'Giza',
+ 'Qalyubia',
+ 'Port Said',
+ 'Suez',
+ 'Gharbia',
+ 'Dakahlia',
+ 'Asyut',
+ 'Fayoum',
+ 'Sharqia',
+ 'Ismailia',
+ 'Aswan',
+ 'Beheira',
+ 'Minya',
+ 'Damietta',
+ 'Luxor',
+ 'Qena',
+ 'Beni Suef',
+ 'Sohag',
+ 'Monufia',
+ 'Red Sea',
+ 'Kafr el-Sheikh',
+ 'North Sinai',
+ 'Matruh',
+ 'New Valley',
+ 'South Sinai',
+];
