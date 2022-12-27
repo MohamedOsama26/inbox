@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:inbox/layout/user_model.dart';
 
 part 'social_state.dart';
@@ -30,12 +34,6 @@ class SocialCubit extends Cubit<SocialState> {
     }).catchError((error) {
       emit(ProfileInfoErrorState(error.toString()));
     });
-    // model = UserModel.fromJson(snapshot.data()!);
-
-    //   emit(ProfileInfoSuccessState(model));
-    // }catch(error){
-    //   emit(ProfileInfoErrorState(error.toString()));
-    // }
   }
 
   void updatePersonalInfo({
@@ -69,5 +67,43 @@ class SocialCubit extends Cubit<SocialState> {
         .catchError((error) {
       emit(ProfileInfoErrorState(error.toString()));
     });
+  }
+
+  final ImagePicker imagePicker = ImagePicker();
+  File? profileImage;
+  File? coverImage;
+
+  void updateProfileImage() async {
+    final XFile? pickedFile =
+        await imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      profileImage = File(pickedFile.path);
+      emit(ProfileImageSuccessState());
+    } else {
+      print(' No Image Selected');
+      emit(ProfileImageErrorState());
+    }
+  }
+
+  void updateCoverImage() async {
+    final XFile? pickedFile =
+        await imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      coverImage = File(pickedFile.path);
+      emit(CoverImageSuccessState());
+    } else {
+      print(' No Image Selected');
+      emit(CoverImageErrorState());
+    }
+  }
+
+  void uploadProfileImage() {
+    FirebaseStorage.instance
+        .ref()
+        .child('users/${Uri.file(profileImage!.path).pathSegments.last}')
+        .putFile(profileImage!)
+        .then((value) {
+      value.ref.getDownloadURL().then((value) {}).catchError((error) {});
+    }).catchError((error) {});
   }
 }

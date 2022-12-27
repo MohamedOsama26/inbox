@@ -31,7 +31,7 @@ class _RegisterNewUserInformationState
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nicknameController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController birthDayController = TextEditingController();
+  final TextEditingController birthdayController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
@@ -117,13 +117,13 @@ class _RegisterNewUserInformationState
                                 String formattedDate =
                                 DateFormat('d/MM/yyyy').format(value);
                                 setState(() {
-                                  birthDayController.text = formattedDate;
+                                  birthdayController.text = formattedDate;
                                 });
                               }
                             });
                           },
 
-                          controller: birthDayController,
+                          controller: birthdayController,
                           label: 'Birthday',
                           readOnly: true,
                           editable: false,
@@ -146,13 +146,13 @@ class _RegisterNewUserInformationState
                               String formattedDate =
                                   DateFormat('d/MM/yyyy').format(value);
                               setState(() {
-                                birthDayController.text = formattedDate;
+                                birthdayController.text = formattedDate;
                               });
                             }
                           });
                         }
                         ),
-                    CustomDropdownButton(items: cities, label: 'City',dropdownValue: currentCity),
+                    CustomDropdownButton(items: cities, label: 'City',controller: currentCity, currentCity: 'Ismailia',),
                     const SizedBox(
                       height: 20,
                     ),
@@ -196,7 +196,7 @@ class _RegisterNewUserInformationState
                                 firstName: nameController.text,
                                 lastName: nicknameController.text,
                                 bio: bioController.text,
-                                birthday: birthDayController.text,
+                                birthday: birthdayController.text,
                                 backgroundPicture: backgroundProfilePicture,
                                 city: currentCity.text,
                                 gender: gender,

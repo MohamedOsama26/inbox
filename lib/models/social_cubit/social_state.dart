@@ -19,4 +19,10 @@ class ProfileInfoErrorState extends SocialState {
 
 class ProfileInfoReloadingState extends SocialState {}
 
-// class ProfileInfoEdited extends SocialState {}
+class ProfileImageSuccessState extends SocialState {}
+
+class ProfileImageErrorState extends SocialState {}
+
+class CoverImageSuccessState extends SocialState {}
+
+class CoverImageErrorState extends SocialState {}

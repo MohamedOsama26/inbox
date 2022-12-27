@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
 
 class CustomDropdownButton extends StatefulWidget {
-  CustomDropdownButton({Key? key, required this.items,required this.dropdownValue, required this.label}) : super(key: key);
+  CustomDropdownButton({
+    Key? key,
+    required this.items,
+    required this.controller,
+    required this.label,
+    this.validationFunction,
+    this.currentCity,
+  }) : super(key: key);
 
-  TextEditingController dropdownValue;
+  final String? Function(String?)? validationFunction;
+  final TextEditingController controller;
   final List<String> items;
   final String label;
+  String? currentCity;
 
   @override
   State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
 }
 
 class _CustomDropdownButtonState extends State<CustomDropdownButton> {
+
+
   @override
   Widget build(BuildContext context) {
+    print(widget.currentCity);
     return Column(
       children: [
         Container(
@@ -28,38 +40,28 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         ),
         DropdownButtonHideUnderline(
           child: DropdownButtonFormField(
-
             itemHeight: null,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 4,horizontal: 16),
-
-              border: OutlineInputBorder(borderSide: BorderSide(width: 2,color: Colors.black45) ),
+            decoration: const InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(width: 2, color: Colors.black45)),
             ),
-            // value: null,
-            icon: Icon(Icons.arrow_drop_down),
+            value: widget.currentCity,
+            icon: const Icon(Icons.arrow_drop_down),
             items: widget.items
                 .map((city) => DropdownMenuItem(
-              child: Text(city),
-              value: city,
-            ))
+                      value: city,
+                      child: Text(city),
+                    ))
                 .toList(),
-            onChanged: (city) {
+            onChanged: (String? value) {
               setState(() {
-                widget.dropdownValue.text = city.toString();
-                print('widget.dropdownValue = ${city.toString()}');
+                widget.controller.text = value.toString();
               });
             },
             isExpanded: true,
             borderRadius: BorderRadius.circular(4),
-            validator: (value){
-              if(value == null) {
-                return 'City is required';
-              }
-            },
-
-
-            // isExpanded: true,
-            // isDense: true,
+            validator: widget.validationFunction,
           ),
         ),
       ],
