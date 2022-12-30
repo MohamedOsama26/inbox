@@ -9,7 +9,8 @@ class ProfileInfoLoadingState extends SocialState {}
 
 class ProfileInfoSuccessState extends SocialState {
   UserModel? model;
-  ProfileInfoSuccessState(this.model);
+  String? newUrl;
+  ProfileInfoSuccessState({this.model, this.newUrl});
 }
 
 class ProfileInfoErrorState extends SocialState {
