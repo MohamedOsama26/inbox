@@ -14,13 +14,17 @@ class SocialCubit extends Cubit<SocialState> {
 
   static SocialCubit get(context) => BlocProvider.of(context);
 
+
+  final ImagePicker imagePicker = ImagePicker();
   UserModel? model;
+  String? profileImage;
+  String? coverImage;
 
   void getUserData(String? id) async {
     emit(ProfileInfoLoadingState());
     FirebaseFirestore.instance.collection('users').doc(id).get().then((value) {
       model = UserModel.fromJson(value.data()!);
-      emit(ProfileInfoSuccessState(model:model));
+      emit(ProfileInfoSuccessState(model: model));
     }).catchError((error) {
       emit(ProfileInfoErrorState(error.toString()));
     });
@@ -35,9 +39,6 @@ class SocialCubit extends Cubit<SocialState> {
       emit(ProfileInfoErrorState(error.toString()));
     });
   }
-
-  String? profileUrl;
-  String? newUrl;
 
   void updatePersonalInfo({
     String? id,
@@ -67,50 +68,46 @@ class SocialCubit extends Cubit<SocialState> {
       'backgroundPicture': backgroundPicture
     };
 
-
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(id)
-          .update(updatedModel)
-          .then((_) {
-        print(profileUrl);
-        getUserData(id);
-        reloadPersonalInfo(id);
-      });
-
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(id)
+        .update(updatedModel)
+        .then((_) {
+      reloadPersonalInfo(id);
+    });
   }
 
-  final ImagePicker imagePicker = ImagePicker();
-  String? profileImage;
-  String? coverImage;
-
-  Future<String?> updateProfileImage() async {
+  Future<void> updateProfileImage() async {
     emit(ProfileInfoLoadingState());
-    String? url;
-    final XFile? pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile =
+        await imagePicker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       String image = pickedFile.path;
-    uploadProfileImage(image: image).then((url){emit(ProfileInfoSuccessState(newUrl: url,model: model));});
+      uploadImage(image: image).then((url) {
+        emit(ProfileInfoSuccessState(newProfileUrl: url, model: model));
+      });
     } else {
       print(' No Image Selected');
       emit(ProfileImageErrorState());
     }
-    return url;
   }
 
-  void updateCoverImage() async {
+  Future<void> updateCoverImage() async {
+    emit(ProfileInfoLoadingState());
     final XFile? pickedFile =
-        await imagePicker.pickImage(source: ImageSource.gallery);
+    await imagePicker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      coverImage = pickedFile.path;
-      // emit(CoverImageSuccessState());
+      String image = pickedFile.path;
+      uploadImage(image: image).then((url) {
+        emit(ProfileInfoSuccessState(newCoverUrl: url, model: model));
+      });
     } else {
       print(' No Image Selected');
-      emit(CoverImageErrorState());
+      emit(ProfileImageErrorState());
     }
   }
 
-  Future<String> uploadProfileImage({String? id,String? image}) async {
+  Future<String> uploadImage({String? id, String? image}) async {
     TaskSnapshot snapshot = await FirebaseStorage.instance
         .ref()
         .child('users/${Uri.file(image!).pathSegments.last}')

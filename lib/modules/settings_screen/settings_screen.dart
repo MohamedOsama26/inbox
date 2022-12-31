@@ -31,40 +31,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final TextEditingController cityController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
 
-  bool isReadOnly = false;
-  bool isEditable = true;
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit, SocialState>(
-      listener: (context, state) {
-        print('---------------------------------------------------');
-        print('Here the listener of blocConsumer in settings screen');
-        print('The current state is ${state}');
-        print('---------------------------------------------------');
-      },
+      listener: (context, state) {},
       builder: (context, state) {
-        print('---------------------------------------------------');
-        print('Here the builder of blocConsumer in settings screen');
-        print('The current state is ${state}');
-        print('---------------------------------------------------');
         if (state is ProfileInfoSuccessState) {
-          firstNameController.text = state.model!.firstName;
-          lastNameController.text = state.model!.lastName;
-          emailController.text = state.model!.email;
-          titleController.text = state.model!.title;
-          bioController.text = state.model!.bio;
-          birthdayController.text = state.model!.birthday;
-          cityController.text = state.model!.city;
-          phoneController.text = state.model!.phone;
-
+          setFieldsContent(state.model);
           String oldProfileImage = state.model!.profilePicture;
           String oldCoverImage = state.model!.backgroundPicture;
-
-          String? profileImage = SocialCubit.get(context).profileImage;
-          String? coverImage = SocialCubit.get(context).coverImage;
 
           return Scaffold(
             appBar: AppBar(
@@ -79,13 +56,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 icon: const Icon(Icons.chevron_left),
                 onPressed: () async {
                   if (checkChanges(
-                      model: SocialCubit.get(context).model!,
-                      // newCoverImage: coverImage,
-                      newProfileImage: state.newUrl,
-                    // oldCoverImage: oldCoverImage,
+                    model: state.model!,
+                    newProfileImage: state.newProfileUrl,
                     oldProfileImage: state.model!.profilePicture,
-                  )
-                  ) {
+                    newCoverImage: state.newCoverUrl,
+                    oldCoverImage: state.model!.backgroundPicture,
+                  )) {
                     await showDialog(
                         context: context,
                         builder: (cntxt) => AlertDialog(
@@ -93,10 +69,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 // Edit database
                                 TextButton(
                                   onPressed: () {
-                                    print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
-                                    // print(profileUrl);
-                                    print(SocialCubit.get(context).model!.profilePicture);
-                                    print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+                                    print(
+                                        '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+                                    print(SocialCubit.get(context)
+                                        .model!
+                                        .profilePicture);
+                                    print(
+                                        '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
                                     if (formKey.currentState!.validate()) {
                                       SocialCubit.get(context)
                                           .updatePersonalInfo(
@@ -112,9 +91,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         currentCity: cityController.text,
                                         phone: phoneController.text,
                                         backgroundPicture:
-                                            coverImage ?? oldCoverImage,
-                                        profilePicture:
-                                            state.newUrl ?? oldProfileImage,
+                                            state.newCoverUrl ?? oldCoverImage,
+                                        profilePicture: state.newProfileUrl ??
+                                            oldProfileImage,
                                       );
                                       // SocialCubit.get(context).uploadProfileImage(id: uid);
                                       Navigator.of(context)
@@ -128,7 +107,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    state.newUrl = null;
+                                    state.newProfileUrl = null;
                                     Navigator.of(context)
                                       ..pop()
                                       ..pop();
@@ -169,15 +148,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Stack(
                       children: [
                         Image(
-                            image: coverImage == null
-                                ? NetworkImage(backgroundProfilePicture)
-                                : FileImage(File(coverImage)) as ImageProvider),
+                          image: NetworkImage(state.newCoverUrl ??
+                              state.model!.backgroundPicture),
+                        ),
                         Positioned(
                           right: 0,
                           child: TextButton(
-                            onPressed: () {
-                              SocialCubit.get(context).updateCoverImage();
-                              coverImage = SocialCubit.get(context).coverImage;
+                            onPressed: () async {
+                              await SocialCubit.get(context).updateCoverImage();
                             },
                             child: Row(
                               children: const [
@@ -203,13 +181,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 backgroundColor: const Color(0xFFFFFFFF),
                                 radius: 40,
                                 child: CircleAvatar(
-                                  backgroundImage: NetworkImage(state.newUrl??state.model!.profilePicture),
+                                  backgroundImage: NetworkImage(
+                                      state.newProfileUrl ??
+                                          state.model!.profilePicture),
                                   radius: 38,
                                 ),
                               ),
                               TextButton(
-                                onPressed: () async{
-                                  await SocialCubit.get(context).updateProfileImage();
+                                onPressed: () async {
+                                  await SocialCubit.get(context)
+                                      .updateProfileImage();
                                 },
                                 child: Row(
                                   children: const [
@@ -317,7 +298,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             items: cities,
                             label: 'City',
                             controller: cityController,
-                            currentCity: SocialCubit.get(context).model!.city,
+                            currentCity: state.model!.city,
                           ),
                         ],
                       ),
@@ -351,19 +332,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  bool checkChanges(
-      {required UserModel model,
-      String? newCoverImage,
-      String? newProfileImage,
-        String? oldProfileImage,
-        String? oldCoverImage,
-      }) {
-
-    print('^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_');
-    print('newProfileImage : $newProfileImage');
-    print('oldProfileImage : $oldProfileImage');
-    print('^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_^_');
-
+  bool checkChanges({
+    required UserModel model,
+    String? newCoverImage,
+    String? newProfileImage,
+    String? oldProfileImage,
+    String? oldCoverImage,
+  }) {
     return (firstNameController.text != model.firstName ||
         lastNameController.text != model.lastName ||
         emailController.text != model.email ||
@@ -371,7 +346,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
         titleController.text != model.title ||
         bioController.text != model.bio ||
         cityController.text != model.city ||
-        // newCoverImage != oldCoverImage ||
+        newCoverImage != null ||
         newProfileImage != null);
+  }
+
+  void setFieldsContent(model) {
+    if (firstNameController.text != model.firstName &&
+        lastNameController.text != model.lastName &&
+        emailController.text != model.email &&
+        birthdayController.text != model.birthday &&
+        titleController.text != model.title &&
+        bioController.text != model.bio &&
+        cityController.text != model.city) {
+      firstNameController.text = model.firstName;
+      lastNameController.text = model.lastName;
+      emailController.text = model.email;
+      titleController.text = model.title;
+      bioController.text = model.bio;
+      birthdayController.text = model.birthday;
+      cityController.text = model.city;
+      phoneController.text = model.phone;
+    }
   }
 }

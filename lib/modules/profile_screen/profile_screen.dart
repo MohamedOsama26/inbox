@@ -28,10 +28,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // print('----------------------------------------------------');
         },
         builder: (context, state) {
-          // print('----------------------------------------------------');
-          // print('here the builder of blocConsumer in profile screen');
-          // print('The current state is ${state}');
-          // print('----------------------------------------------------');
           if (state is SocialInitial) {
             SocialCubit.get(context).getUserData(uid);
             return const Center(
@@ -52,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             topRight: Radius.circular(20)),
                         image: DecorationImage(
                           alignment: Alignment.topCenter,
-                          image: NetworkImage(backgroundProfilePicture),
+                          image: NetworkImage(state.model!.backgroundPicture),
                         ),
                       ),
                     ),
