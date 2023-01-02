@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:inbox/layout/user_model.dart';
 import 'package:inbox/main.dart';
 import 'package:inbox/models/social_cubit/social_cubit.dart';
@@ -69,13 +66,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 // Edit database
                                 TextButton(
                                   onPressed: () {
-                                    print(
-                                        '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
-                                    print(SocialCubit.get(context)
-                                        .model!
-                                        .profilePicture);
-                                    print(
-                                        '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
                                     if (formKey.currentState!.validate()) {
                                       SocialCubit.get(context)
                                           .updatePersonalInfo(
@@ -139,18 +129,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Container(
                     margin: const EdgeInsets.all(4.0),
                     padding: const EdgeInsets.all(2.0),
+                    height: 250,
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color(0x6B000000),
-                        width: 4.0,
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          state.newCoverUrl ??
+                              state.model!.backgroundPicture),
+                      fit: BoxFit.cover
                       ),
                     ),
                     child: Stack(
                       children: [
-                        Image(
-                          image: NetworkImage(state.newCoverUrl ??
-                              state.model!.backgroundPicture),
-                        ),
+
                         Positioned(
                           right: 0,
                           child: TextButton(
@@ -310,10 +300,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           );
         }
         if (state is ProfileInfoLoadingState) {
-          SocialCubit.get(context).getUserData(uid);
           return const Scaffold(
             body: Center(
-              child: Text('Loading State'),
+              child: Text('Loading'),
             ),
           );
         } else if (state is ProfileInfoErrorState) {

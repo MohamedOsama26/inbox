@@ -78,13 +78,13 @@ class SocialCubit extends Cubit<SocialState> {
   }
 
   Future<void> updateProfileImage() async {
-    emit(ProfileInfoLoadingState());
     final XFile? pickedFile =
         await imagePicker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       String image = pickedFile.path;
       uploadImage(image: image).then((url) {
-        emit(ProfileInfoSuccessState(newProfileUrl: url, model: model));
+        profileImage = url;
+        emit(ProfileInfoSuccessState(newProfileUrl: url, model: model,newCoverUrl: coverImage));
       });
     } else {
       print(' No Image Selected');
@@ -93,13 +93,13 @@ class SocialCubit extends Cubit<SocialState> {
   }
 
   Future<void> updateCoverImage() async {
-    emit(ProfileInfoLoadingState());
     final XFile? pickedFile =
     await imagePicker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       String image = pickedFile.path;
       uploadImage(image: image).then((url) {
-        emit(ProfileInfoSuccessState(newCoverUrl: url, model: model));
+        coverImage = url;
+        emit(ProfileInfoSuccessState(newCoverUrl: url, model: model,newProfileUrl: profileImage));
       });
     } else {
       print(' No Image Selected');
