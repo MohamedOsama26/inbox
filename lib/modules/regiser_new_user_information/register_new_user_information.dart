@@ -45,7 +45,7 @@ class _RegisterNewUserInformationState
       listener: (context,state){
         if(state is RegisterSuccessState){
           print('=====> Here in register screen the id should be passed to main page by navigation after regestering and been in success state : ${state.id}');
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MainPage(state.id)));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MainPage()));
         }
       },
   builder: (context, state) {

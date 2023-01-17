@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
         listener: (context, state) {
           if (state is LoginSuccessState) {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => MainPage(state.id)));
+                MaterialPageRoute(builder: (context) => MainPage()));
           }
         },
         builder: (context, state) {
@@ -174,7 +174,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     LoginCubit.get(context).login(context,
                                         email: emailController.text,
                                         password: passwordController.text,
-                                        remember: rememberUser);
+                                        remember: rememberUser
+                                    );
                                   }
                                 },
                                 child: Text(

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inbox/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_state.dart';
@@ -18,6 +19,7 @@ class LoginCubit extends Cubit<LoginState> {
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) async {
       if (remember == true) {
+        uid = value.user!.uid;
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('uid', value.user!.uid);
       }

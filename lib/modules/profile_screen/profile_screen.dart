@@ -21,6 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       listener: (context, state) {},
       builder: (context, state) {
         if (state is ProfileInfoSuccessState) {
+          print('UID in profile_screen ==> $uid');
           return ListView(
             children: [
               Stack(

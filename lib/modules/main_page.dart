@@ -10,9 +10,9 @@ import 'package:inbox/shared/widgets/inbox_app_bar.dart';
 import '../main.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage(this.id, {Key? key}) : super(key: key);
+  const MainPage({Key? key}) : super(key: key);
 
-  final String? id;
+  // final String? id;
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -24,6 +24,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    print('UID in main_page ==> $uid');
     return Scaffold(
       bottomNavigationBar:
           InboxNavBar(controller: controller, pageIndex: currentPageIndex),

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inbox/layout/user_model.dart';
+import 'package:inbox/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'register_state.dart';
@@ -52,6 +53,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         title: title,
       );
 
+      uid = value.user!.uid;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('uid', value.user!.uid);
 

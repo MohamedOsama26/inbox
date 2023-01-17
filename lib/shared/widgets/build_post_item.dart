@@ -1,12 +1,37 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inbox/models/social_cubit/social_cubit.dart';
+import 'package:inbox/shared/widgets/post_attachents.dart';
 import 'package:inbox/shared/widgets/resize_text_feild.dart';
 
-class Post extends StatefulWidget {
-  const Post({super.key});
+class BuildPostItem extends StatefulWidget {
+  final String name;
+  final String postImage;
+  final String text;
+  final String uid;
+  final String dateTime;
+  final String profileImage;
+  final String currentUserProfileImage;
+  final int likes;
+  final String postId;
+
+
+  const BuildPostItem({
+    super.key,
+    required this.name,
+    required this.postImage,
+    required this.text,
+    required this.uid,
+    required this.dateTime,
+    required this.profileImage,
+    required this.currentUserProfileImage,
+    required this.postId,
+    required this.likes,
+  });
 
   @override
-  State<Post> createState() => _PostState();
+  State<BuildPostItem> createState() => _BuildPostItem();
 }
 
 void submittedEffect(BuildContext context) async {
@@ -32,13 +57,7 @@ void submittedEffect(BuildContext context) async {
   );
 }
 
-class _PostState extends State<Post> {
-  List<String> images = [
-    'https://cairoict.b-cdn.net/wp-content/uploads/2021/05/CairoICT-2020-0000105.jpg',
-    'https://lh3.googleusercontent.com/u/1/drive-viewer/AFDK6gOJbeDbEqs7sv2ecWkbnT7e7elOIRHMnJg6u4JTnFF9sf1jU9yiaEZW-0glgC322DbF_L6x24N2_CRFoHQyPx0OvLS6=w1848-h968',
-    'https://cairoict.b-cdn.net/wp-content/uploads/2021/05/CairoICT-2020-0000112.jpg'
-  ];
-
+class _BuildPostItem extends State<BuildPostItem> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController commentController = TextEditingController();
 
@@ -50,40 +69,38 @@ class _PostState extends State<Post> {
       child: Card(
         elevation: 10,
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
         margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
         child: Column(
           children: [
             //Information about post and menu
             Row(
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     backgroundColor: Colors.blue,
                     radius: 34.0,
-                    backgroundImage: NetworkImage(
-                      'https://lh3.googleusercontent.com/u/1/drive-viewer/AFDK6gPA2aa7pJPjxae4DMKZFtgNOl7RhZzzoUMB1-Sd-uUsKIEraseFPCGNVMF-WBYtty7YmTTV0azYWhxjGw3uNykwWx8sXA=w1848-h995',
-                    ),
+                    backgroundImage: NetworkImage(widget.profileImage),
                   ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      'Mohamed Osama',
-                      style: TextStyle(
+                      widget.name,
+                      style: const TextStyle(
                           color: Color(0xA6000000),
                           fontSize: 17,
                           fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8.0,
                     ),
                     Text(
-                      '3rd Nov. 2021, 13:30',
-                      style: TextStyle(
+                      widget.dateTime,
+                      style: const TextStyle(
                         color: Color(0x66000000),
                         fontSize: 11.5,
                         fontWeight: FontWeight.bold,
@@ -103,44 +120,20 @@ class _PostState extends State<Post> {
                 ),
               ],
             ),
-            //Images swiper in the post
-            SizedBox(
-              height: 200,
-              child: Swiper(
-                pagination: const SwiperPagination(),
-                viewportFraction: 0.9,
-                scale: 0.92,
-                loop: false,
-                itemBuilder: (context, index) {
-                  return Container(
-                    width: 100,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xFF2C3036)),
-                        borderRadius: BorderRadius.circular(12.0),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x99000000),
-                          ),
-                        ],
-                        image: DecorationImage(
-                            image: NetworkImage(images[index]),
-                            fit: BoxFit.cover)),
-                  );
-                },
-                itemCount: 3,
-              ),
-            ),
             const SizedBox(
               height: 6.0,
             ),
+            if (widget.postImage.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0, top: 4),
+                child: PostAttachments(postImage: widget.postImage),
+              ),
             //Text content in the post
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding:
+              const EdgeInsets.only(right: 16.0, left: 16.0, bottom: 16),
               child: Wrap(
-                children: const [
-                  Text(
-                      'Cairo ICT is built around creating targeted exposure with theme-specific technologies to enable exhibitors showcase products/services to a highly motivated targeted audience in a unique business environment. ')
-                ],
+                children: [Text(widget.text)],
               ),
             ),
             //Buttons and numbers of likes and comments
@@ -151,27 +144,36 @@ class _PostState extends State<Post> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 0),
-                        minimumSize: const Size(3, 2)),
-                    onPressed: () => print('like'),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.favorite_border,
-                          // color: Colors.blue,
+                  BlocBuilder<SocialCubit, SocialState>(
+                    builder: (context, state) {
+                      return TextButton(
+                        style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 0),
+                            minimumSize: const Size(3, 2)),
+                        onPressed: () {
+                          print('---------------------');
+                          print(widget.postId);
+                          print('---------------------');
+                          SocialCubit.get(context).likePost(widget.postId);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.favorite_border,
+                              // color: Colors.blue,
+                            ),
+                            const SizedBox(
+                              width: 6.0,
+                            ),
+                            Text(
+                              '${widget.likes}',
+                              style: const TextStyle(color: Colors.black54),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 6.0,
-                        ),
-                        Text(
-                          '201',
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                   TextButton(
                     style: TextButton.styleFrom(
@@ -208,11 +210,11 @@ class _PostState extends State<Post> {
                 margin: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
                   children: [
-                    const CircleAvatar(
-                      backgroundColor: Colors.blue,
-                      radius: 24.0,
+                    CircleAvatar(
+                      radius: 24,
                       backgroundImage: NetworkImage(
-                        'https://lh3.googleusercontent.com/u/1/drive-viewer/AFDK6gPA2aa7pJPjxae4DMKZFtgNOl7RhZzzoUMB1-Sd-uUsKIEraseFPCGNVMF-WBYtty7YmTTV0azYWhxjGw3uNykwWx8sXA=w1848-h995',
+                          widget.currentUserProfileImage
+                        // SocialCubit.get(context).model!.profilePicture
                       ),
                     ),
                     const SizedBox(
@@ -230,17 +232,17 @@ class _PostState extends State<Post> {
                     ),
                     CircleAvatar(
                         child: IconButton(
-                      onPressed: () {
-                        if (commentController.text.isNotEmpty) {
-                          FocusScope.of(context).unfocus();
-                          submittedEffect(context);
-                          commentController.clear();
-                        } else {
-                          FocusScope.of(context).unfocus();
-                        }
-                      },
-                      icon: const Icon(Icons.send),
-                    ))
+                          onPressed: () {
+                            if (commentController.text.isNotEmpty) {
+                              FocusScope.of(context).unfocus();
+                              submittedEffect(context);
+                              commentController.clear();
+                            } else {
+                              FocusScope.of(context).unfocus();
+                            }
+                          },
+                          icon: const Icon(Icons.send),
+                        ))
                   ],
                 ),
               ),
