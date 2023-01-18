@@ -1,4 +1,3 @@
-import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inbox/models/social_cubit/social_cubit.dart';
@@ -13,9 +12,9 @@ class BuildPostItem extends StatefulWidget {
   final String dateTime;
   final String profileImage;
   final String currentUserProfileImage;
-  final int likes;
+  final int index;
   final String postId;
-
+  final int likes;
 
   const BuildPostItem({
     super.key,
@@ -27,6 +26,7 @@ class BuildPostItem extends StatefulWidget {
     required this.profileImage,
     required this.currentUserProfileImage,
     required this.postId,
+    required this.index,
     required this.likes,
   });
 
@@ -69,7 +69,7 @@ class _BuildPostItem extends State<BuildPostItem> {
       child: Card(
         elevation: 10,
         shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
         margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
         child: Column(
           children: [
@@ -131,7 +131,7 @@ class _BuildPostItem extends State<BuildPostItem> {
             //Text content in the post
             Padding(
               padding:
-              const EdgeInsets.only(right: 16.0, left: 16.0, bottom: 16),
+                  const EdgeInsets.only(right: 16.0, left: 16.0, bottom: 16),
               child: Wrap(
                 children: [Text(widget.text)],
               ),
@@ -151,9 +151,6 @@ class _BuildPostItem extends State<BuildPostItem> {
                             padding: const EdgeInsets.symmetric(vertical: 0),
                             minimumSize: const Size(3, 2)),
                         onPressed: () {
-                          print('---------------------');
-                          print(widget.postId);
-                          print('---------------------');
                           SocialCubit.get(context).likePost(widget.postId);
                         },
                         child: Row(
@@ -169,7 +166,7 @@ class _BuildPostItem extends State<BuildPostItem> {
                             Text(
                               '${widget.likes}',
                               style: const TextStyle(color: Colors.black54),
-                            ),
+                            )
                           ],
                         ),
                       );
@@ -212,10 +209,10 @@ class _BuildPostItem extends State<BuildPostItem> {
                   children: [
                     CircleAvatar(
                       radius: 24,
-                      backgroundImage: NetworkImage(
-                          widget.currentUserProfileImage
-                        // SocialCubit.get(context).model!.profilePicture
-                      ),
+                      backgroundImage:
+                          NetworkImage(widget.currentUserProfileImage
+                              // SocialCubit.get(context).model!.profilePicture
+                              ),
                     ),
                     const SizedBox(
                       width: 2.0,
@@ -232,17 +229,17 @@ class _BuildPostItem extends State<BuildPostItem> {
                     ),
                     CircleAvatar(
                         child: IconButton(
-                          onPressed: () {
-                            if (commentController.text.isNotEmpty) {
-                              FocusScope.of(context).unfocus();
-                              submittedEffect(context);
-                              commentController.clear();
-                            } else {
-                              FocusScope.of(context).unfocus();
-                            }
-                          },
-                          icon: const Icon(Icons.send),
-                        ))
+                      onPressed: () {
+                        if (commentController.text.isNotEmpty) {
+                          FocusScope.of(context).unfocus();
+                          submittedEffect(context);
+                          commentController.clear();
+                        } else {
+                          FocusScope.of(context).unfocus();
+                        }
+                      },
+                      icon: const Icon(Icons.send),
+                    ))
                   ],
                 ),
               ),

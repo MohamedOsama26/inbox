@@ -8,12 +8,19 @@ class SocialInitial extends SocialState {}
 //Profile Information
 class ProfileInfoLoadingState extends SocialState {}
 
+
 class ProfileInfoSuccessState extends SocialState {
   UserModel? model;
   String? newProfileUrl;
   String? newCoverUrl;
   List<PostModel>? posts;
-  ProfileInfoSuccessState({this.model, this.newProfileUrl, this.newCoverUrl, this.posts});
+  List<int>? likes;
+  ProfileInfoSuccessState(
+      {this.model,
+      this.newProfileUrl,
+      this.newCoverUrl,
+      this.posts,
+      this.likes});
 }
 
 class ProfileInfoErrorState extends SocialState {

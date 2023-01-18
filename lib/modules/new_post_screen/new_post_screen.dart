@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inbox/models/social_cubit/social_cubit.dart';
 
-
 class NewPostScreen extends StatelessWidget {
   NewPostScreen({Key? key}) : super(key: key);
 
@@ -35,7 +34,8 @@ class NewPostScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 16),
                 child: TextButton(
                     onPressed: () {
-                      if(SocialCubit.get(context).postImage != null || textController.text.isNotEmpty) {
+                      if (SocialCubit.get(context).postImage != null ||
+                          textController.text.isNotEmpty) {
                         if (SocialCubit.get(context).postImage == null) {
                           SocialCubit.get(context).createPost(
                               dateTime: DateTime.now().toString(),
@@ -55,7 +55,7 @@ class NewPostScreen extends StatelessWidget {
               )
             ],
           ),
-          body: Container(
+          body: SizedBox(
             height: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -105,7 +105,7 @@ class NewPostScreen extends StatelessWidget {
                   Expanded(
                     child: TextField(
                       controller: textController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'What\'s in your mind ...',
                       ),
@@ -113,21 +113,31 @@ class NewPostScreen extends StatelessWidget {
                       // ),
                     ),
                   ),
-                  if(SocialCubit.get(context).postImage != null)
-                  Stack(
-                    alignment: Alignment.topRight,
-                    children: [
-                      Container(
-                        height: 200,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(image: FileImage(SocialCubit.get(context).postImage!))
-                        ),),
-
-                      IconButton(icon: CircleAvatar(child: Icon(Icons.close,size: 16.0,),radius: 20.0),onPressed: (){
-                        SocialCubit.get(context).removePostImage();
-                      },color: Colors.white,)
-                    ],
-                  ),
+                  if (SocialCubit.get(context).postImage != null)
+                    Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        Container(
+                          height: 200,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: FileImage(
+                                      SocialCubit.get(context).postImage!))),
+                        ),
+                        IconButton(
+                          icon: const CircleAvatar(
+                              radius: 20.0,
+                              child: Icon(
+                                Icons.close,
+                                size: 16.0,
+                              )),
+                          onPressed: () {
+                            SocialCubit.get(context).removePostImage();
+                          },
+                          color: Colors.white,
+                        )
+                      ],
+                    ),
                   Row(
                     children: [
                       Expanded(

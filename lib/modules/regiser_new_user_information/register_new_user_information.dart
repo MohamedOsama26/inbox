@@ -200,7 +200,8 @@ class _RegisterNewUserInformationState
                                 backgroundPicture: backgroundProfilePicture,
                                 city: currentCity.text,
                                 gender: gender,
-                                profilePicture: profilePicture,
+                                // profilePicture: profilePicture,
+                                profilePicture: '',
                                 title: titleController.text == '' ? '...': titleController.text,
                               );
                             }

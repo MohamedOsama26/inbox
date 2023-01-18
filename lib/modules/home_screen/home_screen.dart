@@ -45,9 +45,6 @@ class HomeScreen extends StatelessWidget {
                             child: CircleAvatar(
                               backgroundColor: Colors.blue,
                               radius: 34.0,
-                              backgroundImage: NetworkImage(
-                                'https://lh3.googleusercontent.com/u/1/drive-viewer/AFDK6gPA2aa7pJPjxae4DMKZFtgNOl7RhZzzoUMB1-Sd-uUsKIEraseFPCGNVMF-WBYtty7YmTTV0azYWhxjGw3uNykwWx8sXA=w1848-h995',
-                              ),
                             ),
                           ),
                           Expanded(
@@ -82,14 +79,9 @@ class HomeScreen extends StatelessWidget {
                 profileImage: state.posts![index].profileImage,
                 currentUserProfileImage: state.model!.profilePicture,
                 postId: SocialCubit.get(context).postsId[index],
-                likes:SocialCubit.get(context).postLikes[index],
+                likes: state.likes![index],
+                index: index
               );
-              // state.posts[0].name
-              // state.posts[0].postImage
-              // state.posts[0].text
-              // state.posts[0].uid
-              // state.posts[0].dateTime
-              // state.posts[0].profileImage
             },
             itemCount: state.posts!.length,
             separatorBuilder: (context, index) => const SizedBox(
@@ -99,7 +91,6 @@ class HomeScreen extends StatelessWidget {
           }
         else {
           SocialCubit.get(context).getUserData(uid);
-          print('UID in home_screen ==> $uid');
           return const Center(
             child: Text('Loading'),
           );
