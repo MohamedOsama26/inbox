@@ -15,6 +15,7 @@ class BuildPostItem extends StatefulWidget {
   final int index;
   final String postId;
   final int likes;
+  final int comments;
 
   const BuildPostItem({
     super.key,
@@ -28,6 +29,7 @@ class BuildPostItem extends StatefulWidget {
     required this.postId,
     required this.index,
     required this.likes,
+    required this.comments,
   });
 
   @override
@@ -176,19 +178,21 @@ class _BuildPostItem extends State<BuildPostItem> {
                     style: TextButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 0),
                         minimumSize: const Size(3, 2)),
-                    onPressed: () => print('comments'),
+                    onPressed: (){
+
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
+                      children:  [
+                        const Icon(
                           Icons.comment_outlined,
                           // color: Colors.blue,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 6.0,
                         ),
                         Text(
-                          '532',
+                          widget.comments.toString(),
                           style: TextStyle(color: Colors.black54),
                         ),
                       ],
@@ -232,7 +236,9 @@ class _BuildPostItem extends State<BuildPostItem> {
                       onPressed: () {
                         if (commentController.text.isNotEmpty) {
                           FocusScope.of(context).unfocus();
-                          submittedEffect(context);
+                          SocialCubit.get(context).submitComment(widget.postId, commentController.text).then((value){
+                            submittedEffect(context);
+                          });
                           commentController.clear();
                         } else {
                           FocusScope.of(context).unfocus();

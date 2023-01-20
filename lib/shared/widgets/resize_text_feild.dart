@@ -35,9 +35,12 @@ class _ResizeTextFieldState extends State<ResizeTextField> {
       ),
       height: widget.height,
       decoration: BoxDecoration(
-          color: const Color(0x0a000000),
-          borderRadius: BorderRadius.circular(10)),
+          color: const Color(0xaffffff),
+          borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: const Color(0xFFBBBBBB))
+      ),
       child: TextFormField(
+        textAlignVertical: TextAlignVertical.center,
         onChanged: (input) {
           setState(() {
             _isMatch = reg.hasMatch(widget.commentController.text);
@@ -49,9 +52,15 @@ class _ResizeTextFieldState extends State<ResizeTextField> {
         maxLines: widget.multiLine? null: 1,
         minLines:  null,
         keyboardType: TextInputType.multiline,
-        decoration: InputDecoration(
-          contentPadding: widget.padding,
-            focusColor: const Color(0xFF00FF73), border: InputBorder.none),
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.zero,
+          hintText: 'Write comment ...',
+          hintStyle: TextStyle(
+            color: Color(0x32000000),
+          ),
+            focusColor: Color(0xFF00FF73), border: InputBorder.none,
+        ),
+
         cursorColor: Colors.transparent,
         style: const TextStyle(
           decorationColor: Colors.transparent,

@@ -16,30 +16,6 @@ class PostAttachments extends StatelessWidget {
   Widget build(BuildContext context) {
     return //Images swiper in the post
         SizedBox(
-            // height: 200,
-            // child: Swiper(
-            //   pagination: const SwiperPagination(),
-            //   viewportFraction: 0.9,
-            //   scale: 0.92,
-            //   loop: false,
-            //   itemBuilder: (context, index) {
-            //     return Container(
-            //       width: 100,
-            //       decoration: BoxDecoration(
-            //           border: Border.all(color: const Color(0xFF2C3036)),
-            //           // borderRadius: BorderRadius.circular(12.0),
-            //           boxShadow: const [
-            //             BoxShadow(
-            //               color: Color(0x99000000),
-            //             ),
-            //           ],
-            //           image: DecorationImage(
-            //               image: NetworkImage(postImage),
-            //               fit: BoxFit.cover)),
-            //     );
-            //   },
-            //   itemCount: 1,
-            // ),
             child: Container(
       margin: const EdgeInsets.symmetric(horizontal: 12),
       constraints: const BoxConstraints(

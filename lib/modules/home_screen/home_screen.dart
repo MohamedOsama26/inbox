@@ -40,28 +40,28 @@ class HomeScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
+                           Padding(
+                            padding: const EdgeInsets.all(8.0),
                             child: CircleAvatar(
                               backgroundColor: Colors.blue,
+                              backgroundImage: NetworkImage(state.model!.profilePicture),
                               radius: 34.0,
                             ),
                           ),
                           Expanded(
-                            child: ResizeTextField(
-                              padding: const EdgeInsets.all(0),
-                              multiLine: false,
-                              commentController: postController,
-                            ),
-                          ),
-                          Container(
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xFF0F66E3)),
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.post_add),
-                              color: Colors.white,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
+                              decoration:  BoxDecoration(
+                                  border: Border.all(color: const Color(0x8BB4B4B4),width: 2,),
+                                borderRadius: BorderRadius.circular(14)
+                              ),
+                              child: const Text(
+                                'Create new post ...',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFFB4B4B4),
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -80,6 +80,7 @@ class HomeScreen extends StatelessWidget {
                 currentUserProfileImage: state.model!.profilePicture,
                 postId: SocialCubit.get(context).postsId[index],
                 likes: state.likes![index],
+                comments: state.comments![index],
                 index: index
               );
             },

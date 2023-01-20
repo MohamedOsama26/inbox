@@ -15,12 +15,15 @@ class ProfileInfoSuccessState extends SocialState {
   String? newCoverUrl;
   List<PostModel>? posts;
   List<int>? likes;
+  List<int>? comments;
   ProfileInfoSuccessState(
       {this.model,
       this.newProfileUrl,
       this.newCoverUrl,
       this.posts,
-      this.likes});
+      this.likes,
+        this.comments,
+      });
 }
 
 class ProfileInfoErrorState extends SocialState {
@@ -60,4 +63,12 @@ class LikePostSuccessState extends SocialState {}
 class LikePostErrorState extends SocialState {
   final String error;
   LikePostErrorState(this.error);
+}
+
+
+class CommentsPostSuccessState extends SocialState {}
+
+class CommentsPostErrorState extends SocialState {
+  final String error;
+  CommentsPostErrorState(this.error);
 }

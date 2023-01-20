@@ -35,4 +35,5 @@ class LoginCubit extends Cubit<LoginState> {
   void reloadLoginPage() {
     emit(LoginInitialState());
   }
+
 }
