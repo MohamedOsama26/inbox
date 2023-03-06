@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:inbox/models/social_cubit/social_cubit.dart';
 import 'package:inbox/shared/widgets/person_card.dart';
 
 class ChattingListScreen extends StatelessWidget {
-  const ChattingListScreen({Key? key}) : super(key: key);
+   const ChattingListScreen({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,22 +42,42 @@ class ChattingListScreen extends StatelessWidget {
         ),
 
         //The list of chats
+
         Expanded(
-          child: ListView.separated(
-            physics: const PageScrollPhysics(),
-            itemBuilder: (BuildContext context, int index) {
-              return PersonCard(
-                birthday: DateTime(1999, 12, 2),
+          child:
+              BlocBuilder<SocialCubit, SocialState>(builder: (context, state) {
+            print('this is the state $state');
+            if (state is GetAllUsersSuccessState) {
+              print(state.allUsers);
+              return ListView.separated(
+                physics: const PageScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  return PersonCard(
+                    fullName:
+                        '${state.allUsers[index].firstName} ${state.allUsers[index].lastName}',
+                    birthday: DateTime(1999, 12, 2),
+                    userPhoto: state.allUsers[index].profilePicture,
+                    chatPerson: state.allUsers[index],
+                  );
+                },
+                itemCount: state.allUsers.length,
+                separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(
+                    height: 8,
+                  );
+                },
               );
-            },
-            itemCount: 10,
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(
-                height: 8,
+            } else if (state is GetAllUsersErrorState) {
+              return Center(
+                child: Text(state.error),
               );
-            },
-          ),
-        ),
+            } else {
+              print(state);
+              SocialCubit.get(context).getAllUsers();
+              return const Center(child: CircularProgressIndicator());
+            }
+          }),
+        )
       ],
     );
   }

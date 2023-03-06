@@ -72,3 +72,14 @@ class CommentsPostErrorState extends SocialState {
   final String error;
   CommentsPostErrorState(this.error);
 }
+
+
+class GetAllUsersSuccessState extends SocialState{
+  final List<UserModel> allUsers;
+  GetAllUsersSuccessState(this.allUsers);
+}
+class GetAllUsersLoadingState extends SocialState{}
+class GetAllUsersErrorState extends SocialState{
+  final String error;
+  GetAllUsersErrorState(this.error);
+}

@@ -42,7 +42,7 @@ class _MainPageState extends State<MainPage> {
             controller: controller,
             children: [
               HomeScreen(),
-              const ChattingListScreen(),
+               const ChattingListScreen(),
               const ReelsScreen(),
               const ProfileScreen(),
             ],

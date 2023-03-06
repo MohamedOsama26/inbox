@@ -272,4 +272,47 @@ class SocialCubit extends Cubit<SocialState> {
       'commentTime': DateTime.now(),
     });
   }
+
+  List<UserModel> allUsers = [];
+
+  Future<void> getAllUsers() async {
+    // emit(GetAllUsersLoadingState());
+    print('loading');
+    allUsers = [];
+
+    QuerySnapshot<Map<String, dynamic>> snapshots =
+        await FirebaseFirestore.instance.collection('users').get();
+
+    for (var doc in snapshots.docs) {
+      // print(doc);
+      UserModel user = UserModel.fromJson(doc.data());
+      // print('${user.firstName} ${user.lastName}');
+      if (user.uid != userModel?.uid) {
+        allUsers.add(user);
+      }
+      // print(allUsers);
+    }
+    // print(allUsers);
+    emit(GetAllUsersSuccessState(allUsers));
+    print(allUsers.length);
+    // print(allUsers);
+    // print('--------');
+  }
+
+  Future<void> sendChatMessage({
+    required String receiverId,
+    required String messageContent,
+    required String senderId,
+  }) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel?.uid)
+        .collection('chats').doc('messages')
+        .collection('messages').add({
+      'receiverId':receiverId,
+      'messageContent':messageContent,
+      'senderId':senderId,
+      'dateTime': DateTime.now()
+    });
+  }
 }
